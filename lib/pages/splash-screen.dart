@@ -9,23 +9,14 @@ class SplashScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-            color: mainThemeColor,
+            color: Color(0xFF00A2E4),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 50, left: 50),
-            decoration: BoxDecoration(
-                color: Color(0x007FC443),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(500),
-                  bottomLeft: Radius.circular(500),
-                )),
+          ClipPath(
+            clipper: MyClipper(),
+            child: Container(
+              color: Color(0xFF00AFEF),
+            ),
           ),
-          // ClipPath(
-          //   clipper: MyClipper(),
-          //   child: Container(
-          //     color: Colors.red,
-          //   ),
-          // ),
           Center(
             child: Container(
               width: 200,
@@ -47,11 +38,17 @@ class MyClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.lineTo(0, size.height - 80);
-    path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 80);
-    path.lineTo(size.width, 0);
-    path.close();
+    // path.lineTo(0, size.height - 80);
+    // path.quadraticBezierTo(
+    //     size.width / 2, size.height, size.width, size.height - 80);
+    // path.lineTo(size.width, 0);
+    // path.close();
+    path.moveTo(size.width, 40);
+    // path.lineTo(0, 0);
+    // path.lineTo(0, size.height/2);
+    path.quadraticBezierTo(0, size.height / 3, size.width / 5, size.height);
+    path.lineTo(size.width / 5, size.height);
+    path.lineTo(size.width, size.height);
     return path;
   }
 
