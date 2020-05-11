@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masjid_finder/pages/login-screen.dart';
+import 'package:masjid_finder/pages/masjid-details-screen.dart';
+import 'package:masjid_finder/pages/user-login-screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: MasjidDetailsScreen(),
     );
   }
 }

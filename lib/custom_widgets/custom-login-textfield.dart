@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
+import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/main.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -13,9 +14,11 @@ class CustomTextField extends StatelessWidget {
   final textCapitalization;
   final inputType;
   final controller;
+  final iconData;
 
   CustomTextField(
       {this.hint = '',
+      this.iconData,
       this.controller,
       this.inputType = TextInputType.text,
       this.label,
@@ -36,13 +39,17 @@ class CustomTextField extends StatelessWidget {
         style:
             TextStyle(fontSize: 15, color: mainThemeColor, fontFamily: 'Arial'),
         decoration: InputDecoration(
+//          prefix: Icon(
+//            iconData,
+//            color: mainThemeColor,
+//          ),
           border: OutlineInputBorder(
-              borderSide: BorderSide(
-            color: mainThemeColor,
-          )),
+            borderSide: BorderSide(
+              color: mainThemeColor,
+            ),
+          ),
           labelText: label,
-          labelStyle: TextStyle(
-              fontSize: 10, color: blueFontLabelColor, fontFamily: 'Arial'),
+          labelStyle: textFieldLabelTS,
           hintText: hint,
           hintStyle: TextStyle(
               fontSize: 14, color: Color(0x5544C7D9), fontFamily: 'Arial'),

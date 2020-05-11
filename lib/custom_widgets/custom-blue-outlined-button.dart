@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
-import 'package:masjid_finder/constants/text-styles.dart';
 
-class CustomBlueRoundedButton extends StatelessWidget {
+class CustomBlueOutlinedButton extends StatelessWidget {
   final onPressed;
   final text;
 
-  CustomBlueRoundedButton({this.onPressed, this.text});
+  CustomBlueOutlinedButton({this.onPressed, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +13,17 @@ class CustomBlueRoundedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 14),
-        child: Text(text ?? '', style: roundedBlueBtnTS),
+        child: Text(
+          text ?? '',
+          style: TextStyle(color: mainThemeColor),
+        ),
       ),
-      color: blueFontLabelColor,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40))),
+        side: BorderSide(color: mainThemeColor),
+        borderRadius: BorderRadius.all(
+          Radius.circular(40),
+        ),
+      ),
     );
   }
 }
