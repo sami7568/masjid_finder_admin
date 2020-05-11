@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/custom_widgets/cusom-black-button.dart';
+import 'package:masjid_finder/custom_widgets/cusom-black-outlined-button.dart';
+import 'package:masjid_finder/custom_widgets/logo.dart';
 
 class MasjidDetailsScreen extends StatelessWidget {
   @override
@@ -37,12 +40,7 @@ class MasjidDetailsScreen extends StatelessWidget {
             Icons.subject,
             color: mainThemeColor,
           ),
-          Column(
-            children: <Widget>[
-              Text('Masjid', style: urduLogoTS),
-              Text('Finder', style: urduLogoTS.copyWith(fontSize: 12)),
-            ],
-          ),
+          Logo(color: mainThemeColor),
           Container(),
         ],
       ),
@@ -75,8 +73,7 @@ class MasjidDetailsScreen extends StatelessWidget {
               ),
             ],
           ),
-          RaisedButton(
-            color: Colors.black,
+          CustomBlackButton(
             child: Row(
               children: <Widget>[
                 Icon(Icons.notifications, color: Colors.white, size: 17),
@@ -84,8 +81,6 @@ class MasjidDetailsScreen extends StatelessWidget {
                 Text('SUBSCRIBE', style: blackBtnTS),
               ],
             ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             onPressed: () {},
           )
         ],
@@ -107,17 +102,10 @@ class MasjidDetailsScreen extends StatelessWidget {
               Text('University Road, Peshawar', style: mainBodyTextStyle)
             ],
           ),
-          FlatButton(
+          CustomBlackOutlinedButton(
             child: Text(
               'DIRECTIONS',
               style: blackBtnTS.copyWith(color: Colors.black),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-              side: BorderSide(
-                color: Colors.black,
-                width: 2,
-              ),
             ),
             onPressed: () {},
           ),
