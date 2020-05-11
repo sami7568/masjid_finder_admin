@@ -14,6 +14,13 @@ const subHeadingTextStyle = TextStyle(
   fontSize: 16,
 );
 
+const subHeadingLightTextStyle = TextStyle(
+  fontFamily: 'Poppins',
+  fontWeight: FontWeight.w600,
+  fontSize: 16,
+  color: Color(0xFF767676),
+);
+
 const mainBodyTextStyle = TextStyle(
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w500,
