@@ -55,13 +55,13 @@ class _MosquesResultState extends State<MosquesResult> {
               ),
             ),
 
-            mosqueListItem(
+            MosqueListItem(
                 name: "Spin Jumat", address: 'University Road', isJamia: true),
-            mosqueListItem(
+            MosqueListItem(
               name: "KMC Mosque",
               address: 'University of Peshawar',
             ),
-            mosqueListItem(
+            MosqueListItem(
               name: "UET Mosque",
               address: 'UET Peshawar',
             ),
