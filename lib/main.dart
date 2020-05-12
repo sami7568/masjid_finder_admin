@@ -5,6 +5,10 @@ import 'package:masjid_finder/pages/add-mosque-screen1.dart';
 import 'package:masjid_finder/pages/imam-login-screen.dart';
 import 'package:masjid_finder/pages/imam-signup-screen.dart';
 import 'package:masjid_finder/pages/prompt-screen.dart';
+import 'package:masjid_finder/pages/follow-a-mosque.dart';
+import 'package:masjid_finder/pages/mosque-listed.dart';
+import 'package:masjid_finder/pages/mosque-not-listed.dart';
+import 'package:masjid_finder/pages/mosque-subscriebrs-list.dart';
 import 'package:masjid_finder/pages/show-on-maps-screen.dart';
 import 'package:masjid_finder/pages/splash-screen.dart';
 
