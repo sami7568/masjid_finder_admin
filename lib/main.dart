@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
+import 'package:masjid_finder/pages/add-masjid-screen3.dart';
+import 'package:masjid_finder/pages/add-mosque-screen1.dart';
+import 'package:masjid_finder/pages/imam-login-screen.dart';
+import 'package:masjid_finder/pages/imam-signup-screen.dart';
+import 'package:masjid_finder/pages/prompt-screen.dart';
 import 'package:masjid_finder/pages/follow-a-mosque.dart';
 import 'package:masjid_finder/pages/mosque-listed.dart';
 import 'package:masjid_finder/pages/mosque-not-listed.dart';
@@ -17,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           backgroundColor: backgroundColor,
           scaffoldBackgroundColor: backgroundColor),
-      home: FollowAMosque(),
+      home: AddMasjidScreen3(),
     );
   }
 }

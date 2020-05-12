@@ -3,6 +3,7 @@ import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/custom_widgets/black-button.dart';
 import 'package:masjid_finder/pages/mosque-list-item.dart';
 
+
 class MosquesResult extends StatefulWidget {
   @override
   _MosquesResultState createState() => _MosquesResultState();

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/custom_widgets/custom-rounded-textfield.dart';
+import 'package:masjid_finder/custom_widgets/logo.dart';
+import 'package:masjid_finder/main.dart';
 
-class UserSignUpScreen extends StatefulWidget {
+class ImamSignUpScreen extends StatefulWidget {
   @override
-  _UserSignUpScreenState createState() => _UserSignUpScreenState();
+  _ImamSignUpScreenState createState() => _ImamSignUpScreenState();
 }
 
-class _UserSignUpScreenState extends State<UserSignUpScreen> {
+class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
@@ -23,16 +26,23 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
 //        decoration: BoxDecoration(image: DecorationImage(image: )),
-              color: Color(0xff00AFEF),
+              color: greyBgColor,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 32),
-                    child: Text(
-                      'Sign Up',
-                      style: WhiteHeadTS,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Logo'),
+                      Text(
+                        'Masjid',
+                        style: urduLogoTS.copyWith(fontSize: 20),
+                      ),
+                      Text(
+                        'Finder',
+                        style: urduLogoTS.copyWith(fontSize: 20),
+                      )
+                    ],
                   ),
                   _signUpForm(),
                 ],
@@ -46,7 +56,6 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       child: Column(
@@ -54,7 +63,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
         children: <Widget>[
           CustomRoundedTextField(
             hint: 'FirstName LastName',
-            label: 'User Name',
+            label: 'Full Name',
             controller: emailController,
           ),
           CustomRoundedTextField(
@@ -63,25 +72,45 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
             controller: emailController,
           ),
           CustomRoundedTextField(
+            hint: '03*******97',
+            label: 'Contact',
+            controller: passwordController,
+          ),
+          CustomRoundedTextField(
             hint: '*********',
             label: 'Password',
             controller: passwordController,
             isPassword: true,
           ),
-          CustomRoundedTextField(
-            hint: '*********',
-            label: 'Cofirm Password',
-            controller: passwordController,
-            isPassword: true,
-          ),
-          SizedBox(height: 40),
+          SizedBox(height: 20),
           CustomBlueRoundedButton(
-            child: Text(
-              'SIGN UP',
-              style: roundedBlueBtnTS,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Text(
+                'SIGN UP',
+                style: roundedBlueBtnTS,
+              ),
             ),
             onPressed: () {},
           ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('Already have an account?', style: alreadyHaveAccountTS),
+              SizedBox(width: 3),
+              GestureDetector(
+                child: Text(
+                  'Login',
+                  style: alreadyHaveAccountTS.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: mainThemeColor,
+                  ),
+                ),
+                onTap: (){},
+              ),
+            ],
+          )
         ],
       ),
     );

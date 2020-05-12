@@ -5,7 +5,7 @@ import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/main.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomRoundedTextField extends StatelessWidget {
   final hint;
   final label;
   final onChange;
@@ -16,7 +16,7 @@ class CustomTextField extends StatelessWidget {
   final controller;
   final iconData;
 
-  CustomTextField(
+  CustomRoundedTextField(
       {this.hint = '',
       this.iconData,
       this.controller,
@@ -43,7 +43,14 @@ class CustomTextField extends StatelessWidget {
 //            iconData,
 //            color: mainThemeColor,
 //          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(
+              color: mainThemeColor,
+            ),
+          ),
           border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide(
               color: mainThemeColor,
             ),
