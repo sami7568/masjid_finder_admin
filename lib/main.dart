@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
+import 'package:masjid_finder/pages/mosque-listed.dart';
 import 'package:masjid_finder/pages/mosque-not-listed.dart';
 import 'package:masjid_finder/pages/show-on-maps-screen.dart';
 import 'package:masjid_finder/pages/splash-screen.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           backgroundColor: backgroundColor,
           scaffoldBackgroundColor: backgroundColor),
-      home: MosqueNotListed(),
+      home: MosqueListed(),
     );
   }
 }
