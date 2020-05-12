@@ -3,7 +3,7 @@ import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/custom_widgets/cusom-black-button.dart';
 import 'package:masjid_finder/custom_widgets/cusom-black-outlined-button.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
-import 'package:masjid_finder/widget.dart/black-button.dart';
+// import 'package:masjid_finder/widget.dart/black-button.dart';
 
 class CustomBottomSheet extends StatelessWidget {
   final Masjid masjidData;

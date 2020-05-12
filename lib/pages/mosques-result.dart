@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/custom_widgets/black-button.dart';
 import 'package:masjid_finder/pages/mosque-list-item.dart';
-import 'package:masjid_finder/widget.dart/black-button.dart';
 
 class MosquesResult extends StatefulWidget {
   @override

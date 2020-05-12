@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
+import 'package:masjid_finder/custom_widgets/black-button.dart';
+import 'package:masjid_finder/custom_widgets/location-access-card.dart';
 import 'package:masjid_finder/pages/mosques-result.dart';
-import 'package:masjid_finder/widget.dart/black-button.dart';
-import 'package:masjid_finder/widget.dart/location-access-card.dart';
 
 class LocationAccess extends StatefulWidget {
   @override
