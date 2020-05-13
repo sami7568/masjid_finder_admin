@@ -3,7 +3,7 @@ import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-login-textfield.dart';
+import 'package:masjid_finder/custom_widgets/custom-rounded-textfield.dart';
 import 'package:masjid_finder/custom_widgets/logo.dart';
 import 'package:masjid_finder/main.dart';
 
@@ -61,22 +61,22 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          CustomTextField(
+          CustomRoundedTextField(
             hint: 'FirstName LastName',
             label: 'Full Name',
             controller: emailController,
           ),
-          CustomTextField(
+          CustomRoundedTextField(
             hint: 'userName@email.com',
             label: 'Email',
             controller: emailController,
           ),
-          CustomTextField(
+          CustomRoundedTextField(
             hint: '03*******97',
             label: 'Contact',
             controller: passwordController,
           ),
-          CustomTextField(
+          CustomRoundedTextField(
             hint: '*********',
             label: 'Password',
             controller: passwordController,

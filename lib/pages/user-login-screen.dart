@@ -3,7 +3,7 @@ import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-login-textfield.dart';
+import 'package:masjid_finder/custom_widgets/custom-rounded-textfield.dart';
 import 'package:masjid_finder/main.dart';
 import 'package:masjid_finder/pages/user-signup-screen.dart';
 
@@ -55,13 +55,13 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          CustomTextField(
+          CustomRoundedTextField(
             hint: 'user-name@email.com',
             label: 'Email',
             controller: emailController,
             iconData: Icons.email,
           ),
-          CustomTextField(
+          CustomRoundedTextField(
             hint: '*********',
             label: 'Password',
             controller: passwordController,

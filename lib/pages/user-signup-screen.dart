@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
 import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-login-textfield.dart';
+import 'package:masjid_finder/custom_widgets/custom-rounded-textfield.dart';
 
 class UserSignUpScreen extends StatefulWidget {
   @override
@@ -52,23 +52,23 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          CustomTextField(
+          CustomRoundedTextField(
             hint: 'FirstName LastName',
             label: 'User Name',
             controller: emailController,
           ),
-          CustomTextField(
+          CustomRoundedTextField(
             hint: 'userName@email.com',
             label: 'Email',
             controller: emailController,
           ),
-          CustomTextField(
+          CustomRoundedTextField(
             hint: '*********',
             label: 'Password',
             controller: passwordController,
             isPassword: true,
           ),
-          CustomTextField(
+          CustomRoundedTextField(
             hint: '*********',
             label: 'Cofirm Password',
             controller: passwordController,
