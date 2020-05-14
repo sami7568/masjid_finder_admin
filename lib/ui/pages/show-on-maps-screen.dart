@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:masjid_finder/custom_widgets/custom-bottom-sheet.dart';
-import 'package:masjid_finder/custom_widgets/logo.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-bottom-sheet.dart';
+import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 
 class ShowOnMapsScreen extends StatefulWidget {
   @override

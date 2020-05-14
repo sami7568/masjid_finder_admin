@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-rounded-textfield.dart';
-import 'package:masjid_finder/custom_widgets/logo.dart';
-import 'package:masjid_finder/main.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-rounded-textfield.dart';
 
-class ImamSignUpScreen extends StatefulWidget {
+class ImamLoginScreen extends StatefulWidget {
   @override
-  _ImamSignUpScreenState createState() => _ImamSignUpScreenState();
+  _ImamLoginScreenState createState() => _ImamLoginScreenState();
 }
 
-class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
+class _ImamLoginScreenState extends State<ImamLoginScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
@@ -62,19 +59,9 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           CustomRoundedTextField(
-            hint: 'FirstName LastName',
-            label: 'Full Name',
-            controller: emailController,
-          ),
-          CustomRoundedTextField(
             hint: 'userName@email.com',
             label: 'Email',
             controller: emailController,
-          ),
-          CustomRoundedTextField(
-            hint: '03*******97',
-            label: 'Contact',
-            controller: passwordController,
           ),
           CustomRoundedTextField(
             hint: '*********',
@@ -87,7 +74,7 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Text(
-                'SIGN UP',
+                'LOG IN',
                 style: roundedBlueBtnTS,
               ),
             ),
@@ -97,17 +84,17 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Already have an account?', style: alreadyHaveAccountTS),
+              Text('Not registered yet?', style: alreadyHaveAccountTS),
               SizedBox(width: 3),
               GestureDetector(
                 child: Text(
-                  'Login',
+                  'Signup',
                   style: alreadyHaveAccountTS.copyWith(
                     fontWeight: FontWeight.bold,
                     color: mainThemeColor,
                   ),
                 ),
-                onTap: (){},
+                onTap: () {},
               ),
             ],
           )

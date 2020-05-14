@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/admin-app-bar.dart';
-import 'package:masjid_finder/custom_widgets/masjid-details-header.dart';
-import 'package:masjid_finder/custom_widgets/subscriber-list-item.dart';
+import 'package:masjid_finder/ui/custom_widgets/admin-app-bar.dart';
+import 'package:masjid_finder/ui/custom_widgets/masjid-details-header.dart';
+import 'package:masjid_finder/ui/custom_widgets/subscriber-list-item.dart';
 
 class MosqueSubscribersList extends StatefulWidget {
   @override

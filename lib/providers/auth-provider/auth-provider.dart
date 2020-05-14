@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/services/auth-exception-handler.dart';
-import 'package:masjid_finder/services/auth-result-status.dart';
+import 'package:masjid_finder/enums/auth-result-status.dart';
 
 class AuthProvider extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;

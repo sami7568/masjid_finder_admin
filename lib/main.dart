@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
-import 'package:masjid_finder/pages/add-masjid-screen3.dart';
+import 'package:masjid_finder/ui/pages/add-masjid-screen3.dart';
 
 void main() => runApp(MyApp());
 

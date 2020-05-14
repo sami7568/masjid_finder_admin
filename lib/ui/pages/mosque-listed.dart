@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:masjid_finder/custom_widgets/admin-app-bar.dart';
-import 'package:masjid_finder/custom_widgets/mosque-listed-tile.dart';
-import 'package:masjid_finder/custom_widgets/salam-card.dart';
+import 'package:masjid_finder/ui/custom_widgets/admin-app-bar.dart';
+import 'package:masjid_finder/ui/custom_widgets/mosque-listed-tile.dart';
+import 'package:masjid_finder/ui/custom_widgets/salam-card.dart';
 
 class MosqueListed extends StatefulWidget {
   @override

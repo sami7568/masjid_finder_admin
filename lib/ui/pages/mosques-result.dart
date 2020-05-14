@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/black-button.dart';
-import 'package:masjid_finder/pages/mosque-list-item.dart';
+import 'package:masjid_finder/ui/custom_widgets/black-button.dart';
+
+import 'mosque-list-item.dart';
 
 
 class MosquesResult extends StatefulWidget {

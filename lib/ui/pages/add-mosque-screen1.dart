@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-rounded-textfield.dart';
-import 'package:masjid_finder/custom_widgets/custom-squre-textfield.dart';
-import 'package:masjid_finder/custom_widgets/logo.dart';
-import 'package:masjid_finder/main.dart';
-import 'package:masjid_finder/pages/user-signup-screen.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-squre-textfield.dart';
+import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 
 class AddMosqueScreen1 extends StatefulWidget {
   @override

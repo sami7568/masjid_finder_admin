@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/admin-app-bar.dart';
-import 'package:masjid_finder/pages/mosque-list-item.dart';
+import 'package:masjid_finder/ui/custom_widgets/admin-app-bar.dart';
 
+import 'mosque-list-item.dart';
 class FollowAMosque extends StatefulWidget {
   @override
   _FollowAMosqueState createState() => _FollowAMosqueState();
