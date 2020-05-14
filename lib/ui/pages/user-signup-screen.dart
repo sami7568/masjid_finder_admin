@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-rounded-textfield.dart';
-import 'package:masjid_finder/main.dart';
-import 'package:masjid_finder/pages/user-signup-screen.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-rounded-textfield.dart';
 
-class LoginScreen extends StatefulWidget {
+class UserSignUpScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _UserSignUpScreenState createState() => _UserSignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _UserSignUpScreenState extends State<UserSignUpScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
@@ -33,11 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 32),
                     child: Text(
-                      'Login',
+                      'Sign Up',
                       style: WhiteHeadTS,
                     ),
                   ),
-                  _loginForm(),
+                  _signUpForm(),
                 ],
               )),
         ),
@@ -45,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _loginForm() {
+  _signUpForm() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
       decoration: BoxDecoration(
@@ -56,44 +52,34 @@ class _LoginScreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           CustomRoundedTextField(
-            hint: 'user-name@email.com',
+            hint: 'FirstName LastName',
+            label: 'User Name',
+            controller: emailController,
+          ),
+          CustomRoundedTextField(
+            hint: 'userName@email.com',
             label: 'Email',
             controller: emailController,
-            iconData: Icons.email,
           ),
           CustomRoundedTextField(
             hint: '*********',
             label: 'Password',
             controller: passwordController,
-            iconData: Icons.lock,
+            isPassword: true,
+          ),
+          CustomRoundedTextField(
+            hint: '*********',
+            label: 'Cofirm Password',
+            controller: passwordController,
+            isPassword: true,
           ),
           SizedBox(height: 40),
           CustomBlueRoundedButton(
-            child: Text('LOG IN', style: roundedBlueBtnTS,),
-            onPressed: () {},
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 14, bottom: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Not yet Registered?",
-                  style: greyTS,
-                ),
-              ],
+            child: Text(
+              'SIGN UP',
+              style: roundedBlueBtnTS,
             ),
-          ),
-          CustomBlueOutlinedButton(
-            child: Text('SIGN UP', style: TextStyle(color: mainThemeColor),),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserSignUpScreen(),
-                ),
-              );
-            },
+            onPressed: () {},
           ),
         ],
       ),

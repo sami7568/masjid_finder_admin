@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-outlined-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/custom_widgets/custom-white-rounded-button.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-blue-outlined-button.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 
 class PromptScreen extends StatelessWidget {
   @override

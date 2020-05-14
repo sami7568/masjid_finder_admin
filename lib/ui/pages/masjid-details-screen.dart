@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/custom_widgets/cusom-black-button.dart';
-import 'package:masjid_finder/custom_widgets/cusom-black-outlined-button.dart';
-import 'package:masjid_finder/custom_widgets/logo.dart';
+import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
+import 'package:masjid_finder/ui/custom_widgets/cusom-black-outlined-button.dart';
+import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 
-class AddMasjidScreen3 extends StatelessWidget {
+class MasjidDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +23,7 @@ class AddMasjidScreen3 extends StatelessWidget {
       children: <Widget>[
         _header(),
         _basicInfo(),
+        _locationInfo(),
         _prayerTimings(),
       ],
     );
@@ -39,7 +40,8 @@ class AddMasjidScreen3 extends StatelessWidget {
             Icons.subject,
             color: mainThemeColor,
           ),
-          Logo(color: Colors.black),
+          Logo(color: mainThemeColor),
+          Container(),
         ],
       ),
     );
@@ -74,11 +76,39 @@ class AddMasjidScreen3 extends StatelessWidget {
           CustomBlackButton(
             child: Row(
               children: <Widget>[
-                Text('EDIT PROFILE', style: blackBtnTS),
+                Icon(Icons.notifications, color: Colors.white, size: 17),
+                SizedBox(width: 4),
+                Text('SUBSCRIBE', style: blackBtnTS),
               ],
             ),
             onPressed: () {},
           )
+        ],
+      ),
+    );
+  }
+
+  _locationInfo() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(25, 15, 32, 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Location', style: subHeadingTextStyle),
+              SizedBox(height: 10),
+              Text('University Road, Peshawar', style: mainBodyTextStyle)
+            ],
+          ),
+          CustomBlackOutlinedButton(
+            child: Text(
+              'DIRECTIONS',
+              style: blackBtnTS.copyWith(color: Colors.black),
+            ),
+            onPressed: () {},
+          ),
         ],
       ),
     );
@@ -89,12 +119,12 @@ class AddMasjidScreen3 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 25, top: 40),
-          child: Text('Change Prayer Timings', style: subHeadingTextStyle),
+          padding: const EdgeInsets.only(left: 25, top: 15),
+          child: Text('Prayer Timings', style: subHeadingTextStyle),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 25, bottom: 10, top: 9),
-          child: Text('Tap a prayer tile to change its timings.'),
+          child: Text('Subscribe to get notified of change in timings'),
         ),
         namazTile(),
         namazTile(),
@@ -124,14 +154,10 @@ class AddMasjidScreen3 extends StatelessWidget {
               Text('Fajr', style: namazTypeTS),
             ],
           ),
-          Row(children: <Widget>[
-            Icon(Icons.mode_edit, color: Colors.black),
-            SizedBox(width: 4),
-            Text(
-              '4:30 AM',
-              style: namazTimeTS,
-            )
-          ]),
+          Text(
+            '4:30 AM',
+            style: namazTimeTS,
+          )
         ],
       ),
     );
