@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/models/masjid-model.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-outlined-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 
 class MasjidDetailsScreen extends StatelessWidget {
+  final Masjid masjidInfo;
+  MasjidDetailsScreen(this.masjidInfo);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,29 +62,41 @@ class MasjidDetailsScreen extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Spin Jumat', style: subHeadingTextStyle),
+              Text(masjidInfo.name, style: subHeadingTextStyle),
               SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: orangeColor, width: 2)),
-                child: Text(
-                  'Jamia Masjid',
-                  style: jamiaMasjidTS,
-                ),
-              ),
+              masjidInfo.isJamiaMasjid
+                  ? Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: orangeColor, width: 2)),
+                      child: Text(
+                        'Jamia Masjid',
+                        style: jamiaMasjidTS,
+                      ),
+                    )
+                  : null,
             ],
           ),
-          CustomBlackButton(
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.notifications, color: Colors.white, size: 17),
-                SizedBox(width: 4),
-                Text('SUBSCRIBE', style: blackBtnTS),
-              ],
-            ),
-            onPressed: () {},
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CustomBlackButton(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.notifications, color: Colors.white, size: 17),
+                    SizedBox(width: 4),
+                    Text('SUBSCRIBE', style: blackBtnTS),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+              Text(
+                masjidInfo.subscribers.toString() + " subscribers",
+                style: subBodyTextStyle,
+              )
+            ],
           )
         ],
       ),
@@ -99,7 +114,7 @@ class MasjidDetailsScreen extends StatelessWidget {
             children: <Widget>[
               Text('Location', style: subHeadingTextStyle),
               SizedBox(height: 10),
-              Text('University Road, Peshawar', style: mainBodyTextStyle)
+              Text(masjidInfo.address, style: mainBodyTextStyle)
             ],
           ),
           CustomBlackOutlinedButton(
@@ -126,17 +141,18 @@ class MasjidDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 25, bottom: 10, top: 9),
           child: Text('Subscribe to get notified of change in timings'),
         ),
-        namazTile(),
-        namazTile(),
-        namazTile(),
-        namazTile(),
-        namazTile(),
+        namazTile(namazType: "Fajar", time: masjidInfo.prayerTime.fajar),
+        namazTile(namazType: "Zuhar", time: masjidInfo.prayerTime.zuhar),
+        namazTile(namazType: "Asar", time: masjidInfo.prayerTime.asar),
+        namazTile(namazType: "Maghrib", time: masjidInfo.prayerTime.maghrib),
+        namazTile(namazType: "Isha", time: masjidInfo.prayerTime.isha),
+        namazTile(namazType: "Jummah", time: masjidInfo.prayerTime.jummah),
         SizedBox(height: 20),
       ],
     );
   }
 
-  namazTile({icon, namazType, time}) {
+  namazTile({icon, namazType = '', time = ''}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
       padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -151,11 +167,11 @@ class MasjidDetailsScreen extends StatelessWidget {
             children: <Widget>[
               Icon(Icons.wb_sunny, color: timeColor),
               SizedBox(width: 15),
-              Text('Fajr', style: namazTypeTS),
+              Text(namazType, style: namazTypeTS),
             ],
           ),
           Text(
-            '4:30 AM',
+            time,
             style: namazTimeTS,
           )
         ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
-import 'package:masjid_finder/ui/pages/add-masjid-screen3.dart';
+import 'package:masjid_finder/ui/pages/splash-screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           backgroundColor: backgroundColor,
           scaffoldBackgroundColor: backgroundColor),
-      home: AddMasjidScreen3(),
+      home: SplashScreen(),
     );
   }
 }

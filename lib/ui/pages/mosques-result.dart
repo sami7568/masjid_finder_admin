@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/models/masjid-model.dart';
+import 'package:masjid_finder/services/firestore-helper.dart';
 import 'package:masjid_finder/ui/custom_widgets/black-button.dart';
+import 'package:masjid_finder/ui/pages/masjid-details-screen.dart';
 
 import 'mosque-list-item.dart';
-
 
 class MosquesResult extends StatefulWidget {
   @override
@@ -11,6 +13,23 @@ class MosquesResult extends StatefulWidget {
 }
 
 class _MosquesResultState extends State<MosquesResult> {
+  bool gotData = false, noData = false;
+  List<Masjid> _mosquesList = [];
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() {
+    FirestoreHelper().getAllMasjid().then((val) {
+      _mosquesList = val;
+      gotData = true;
+      if (_mosquesList.length < 1) noData = true;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,16 +76,31 @@ class _MosquesResultState extends State<MosquesResult> {
               ),
             ),
 
-            MosqueListItem(
-                name: "Spin Jumat", address: 'University Road', isJamia: true),
-            MosqueListItem(
-              name: "KMC Mosque",
-              address: 'University of Peshawar',
-            ),
-            MosqueListItem(
-              name: "UET Mosque",
-              address: 'UET Peshawar',
-            ),
+            gotData
+                ? Column(
+                    children: _mosquesList.map<Widget>((masjidInfo) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  MasjidDetailsScreen(masjidInfo),
+                            ),
+                          );
+                        },
+                        child: MosqueListItem(
+                          info: masjidInfo,
+                        ),
+                      );
+                    }).toList(),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(),
+                  ),
+
+            // MosqueListItem(),
+
             //Show on map button
             Container(
               margin: EdgeInsets.fromLTRB(12, 32, 12, 12),
