@@ -3,6 +3,7 @@ import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/ui/custom_widgets/admin-app-bar.dart';
 
 import 'mosque-list-item.dart';
+
 class FollowAMosque extends StatefulWidget {
   @override
   _FollowAMosqueState createState() => _FollowAMosqueState();
@@ -28,20 +29,8 @@ class _FollowAMosqueState extends State<FollowAMosque> {
             ),
 
             MosqueListItem(
-              name: "Spin Jumat",
-              address: 'Univesity Road',
-              follow: true,
-              onFollowPressed: () {},
-            ),
-            MosqueListItem(
-              name: "KMC Mosque",
-              address: 'Univesity of Peshawar',
-              follow: true,
-              onFollowPressed: () {},
-            ),
-            MosqueListItem(
-              name: "UET Mosque",
-              address: 'UET Peshawar',
+              // name: "Spin Jumat",
+              // address: 'Univesity Road',
               follow: true,
               onFollowPressed: () {},
             ),

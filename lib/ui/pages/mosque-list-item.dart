@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/models/masjid-model.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 
-
 class MosqueListItem extends StatelessWidget {
-  final String name, address;
-  final bool isJamia, follow;
+  // final String name, address;
+  final bool follow;
   final Function onFollowPressed;
+  final Masjid info;
 
   MosqueListItem(
-      {this.name = '',
-      this.address = '',
-      this.isJamia = false,
+      {
+      //   this.name = '',
+      // this.address = '',
+      // this.isJamia = false,
+      this.info,
       this.follow = false,
       this.onFollowPressed});
   @override
@@ -55,13 +58,13 @@ class MosqueListItem extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: Text(
-                    name,
+                    info.name,
                     style: mainBodyTextStyle,
                   ),
                 ),
                 Container(
                   child: Text(
-                    address,
+                    info.address,
                     style: subBodyLightTextStyle,
                   ),
                 ),
@@ -87,7 +90,7 @@ class MosqueListItem extends StatelessWidget {
                 )
               : Container(),
 
-          (isJamia && !follow)
+          (info.isJamiaMasjid && !follow)
               ? Container(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
