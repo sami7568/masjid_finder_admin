@@ -5,6 +5,7 @@ import 'package:masjid_finder/ui/pages/location-access.dart';
 import 'package:masjid_finder/ui/pages/mosque-listed.dart';
 import 'package:masjid_finder/ui/pages/prompt-screen.dart';
 import 'package:provider/provider.dart';
+import 'package:masjid_finder/ui/pages/splash-screen.dart';
 
 void main() => runApp(MyApp());
 
