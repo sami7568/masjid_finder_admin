@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/ui/custom_widgets/asset-logo.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-outlined-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/ui/pages/imam-login-screen.dart';
@@ -25,17 +26,7 @@ class PromptScreen extends StatelessWidget {
         Container(
           height: 240,
           color: mainThemeColor,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/static_assets/logo.png',
-                width: 120,
-                height: 140,
-                fit: BoxFit.contain,
-              )
-            ],
-          ),
+          child: AssetLogo('assets/static_assets/white-logo.png'),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(50, 70, 50, 30),

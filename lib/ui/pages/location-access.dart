@@ -31,7 +31,7 @@ class _LocationAccessState extends State<LocationAccess> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            "assets/static_assets/logo.png",
+                            "assets/static_assets/white-logo.png",
                           ),
                         ),
                       ),

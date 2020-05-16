@@ -29,24 +29,25 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
           child: Scaffold(
             body: SingleChildScrollView(
               child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 50),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+                padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
 //        decoration: BoxDecoration(image: DecorationImage(image: )),
-                  color: Color(0xff00AFEF),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 32),
-                        child: Text(
-                          'Sign Up',
-                          style: WhiteHeadTS,
-                        ),
+                color: Color(0xff00AFEF),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 32),
+                      child: Text(
+                        'Sign Up',
+                        style: WhiteHeadTS,
                       ),
-                      _signUpForm(),
-                    ],
-                  )),
+                    ),
+                    _signUpForm(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
