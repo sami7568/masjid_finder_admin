@@ -19,6 +19,7 @@ class AuthProvider extends ChangeNotifier {
 
   AuthProvider() {
     _userType = _sharedPrefsHelper.getUserType();
+    print('userType: $_userType');
     _auth.onAuthStateChanged.listen((firebaseUser) {
       _user = firebaseUser;
       if (_user != null)

@@ -5,14 +5,14 @@ import 'package:masjid_finder/ui/custom_widgets/black-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/location-access-card.dart';
 import 'package:provider/provider.dart';
 
-import 'mosques-result.dart';
-
 class LocationAccess extends StatefulWidget {
   @override
   _LocationAccessState createState() => _LocationAccessState();
 }
 
 class _LocationAccessState extends State<LocationAccess> {
+  @override
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
