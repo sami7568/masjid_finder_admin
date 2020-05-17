@@ -1,11 +1,16 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/ui/custom_widgets/asset-logo.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-outlined-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/ui/pages/imam-login-screen.dart';
+import 'package:masjid_finder/ui/pages/location-access.dart';
 import 'package:masjid_finder/ui/pages/user-login-screen.dart';
+import 'package:provider/provider.dart';
 
 class PromptScreen extends StatelessWidget {
   @override
@@ -37,10 +42,11 @@ class PromptScreen extends StatelessWidget {
                   style: roundedBlueBtnTS.copyWith(fontSize: 16)),
             ),
             onPressed: () {
+              Provider.of<AuthProvider>(context, listen: false).setAsUser();
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => UserLoginScreen(),
+                  builder: (context) => LocationAccess(),
                 ),
               );
             },
@@ -56,6 +62,7 @@ class PromptScreen extends StatelessWidget {
                       fontSize: 16, color: Colors.black)),
             ),
             onPressed: () {
+              Provider.of<AuthProvider>(context, listen: false).setAsImam();
               Navigator.push(
                 context,
                 MaterialPageRoute(
