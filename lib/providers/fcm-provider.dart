@@ -6,6 +6,7 @@ class FcmNotificationsProvider extends ChangeNotifier {
   final _fcm = FirebaseMessaging();
 
   FcmNotificationsProvider(this.context) {
+    print('@FcmNotificationsProvider');
     _fcm.configure(
       onMessage: _onMessage,
       onLaunch: _onLaunch,
