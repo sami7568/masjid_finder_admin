@@ -90,9 +90,9 @@ class _AddMasjidScreen2State extends State<AddMasjidScreen2> {
                     label: 'Latitude',
                     inputType: TextInputType.number,
                     onChange: (val) {
-                      masjidProvider.masjid.position.latitude =
+                      masjidProvider.masjid.geoLocation.latitude =
                           double.parse(val);
-                      print(masjidProvider.masjid.position.latitude);
+                      print(masjidProvider.masjid.geoLocation.latitude);
                     },
                   ),
                 ),
@@ -103,9 +103,9 @@ class _AddMasjidScreen2State extends State<AddMasjidScreen2> {
                     label: 'Longitude',
                     inputType: TextInputType.number,
                     onChange: (val) {
-                      masjidProvider.masjid.position.longitude =
+                      masjidProvider.masjid.geoLocation.longitude =
                           double.parse(val);
-                      print(masjidProvider.masjid.position.longitude);
+                      print(masjidProvider.masjid.geoLocation.longitude);
                     },
                   ),
                 ),
@@ -127,8 +127,8 @@ class _AddMasjidScreen2State extends State<AddMasjidScreen2> {
                 borderRadius: BorderRadius.circular(5),
               ),
               onPressed: () {
-                if (masjidProvider.masjid.position.latitude != null &&
-                    masjidProvider.masjid.position.longitude != null) {
+                if (masjidProvider.masjid.geoLocation.latitude != null &&
+                    masjidProvider.masjid.geoLocation.longitude != null) {
                   masjidProvider.setLocationAddedFlat();
                 }
               },

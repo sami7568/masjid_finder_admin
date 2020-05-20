@@ -210,7 +210,7 @@ class _PinMosqueOnMapScreenState extends State<PinMosqueOnMapScreen> {
           ),
           onPressed: () {
             if (masjidProvider.locationAdded) {
-              masjidProvider.masjid.position = GeoFirePoint(
+              masjidProvider.masjid.geoLocation = GeoFirePoint(
                   masjidPinLocation.latitude, masjidPinLocation.longitude);
               Navigator.pop(context);
             }

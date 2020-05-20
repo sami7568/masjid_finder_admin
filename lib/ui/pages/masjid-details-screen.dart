@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
+import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/providers/masjid-provider.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-outlined-button.dart';
@@ -203,23 +204,92 @@ class MasjidDetailsScreen extends StatelessWidget {
                         print('Alert dialog closed with status: $status');
                         if (status) {
                           masjidProvider.setFajarTime(updatedNamazTime);
+                          masjidProvider.updateNamazTime(
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .user
+                                  .uid);
                         }
                         break;
                       case 'Zuhar':
-                        currentTime = masjidProvider.masjid.prayerTime.fajar;
+                        currentTime = masjidProvider.masjid.prayerTime.zuhar;
+                        status = await _showTimeChangeAlert(
+                            context: context,
+                            currentTime: currentTime,
+                            updatedTime: updatedNamazTime,
+                            namazType: namazType);
+                        print('Alert dialog closed with status: $status');
+                        if (status) {
+                          masjidProvider.setZuharTime(updatedNamazTime);
+                          masjidProvider.updateNamazTime(
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .user
+                                  .uid);
+                        }
                         break;
-//                      case 'Asar':
-//                        masjidProvider.setAsarTime(updatedTime);
-//                        break;
-//                      case 'Maghrib':
-//                        masjidProvider.setMaghribTime(updatedTime);
-//                        break;
-//                      case 'Isha':
-//                        masjidProvider.setIshaTime(updatedTime);
-//                        break;
-//                      case 'Jummah':
-//                        masjidProvider.setJummahTime(updatedTime);
-//                        break;
+                      case 'Asar':
+                        currentTime = masjidProvider.masjid.prayerTime.asar;
+                        status = await _showTimeChangeAlert(
+                            context: context,
+                            currentTime: currentTime,
+                            updatedTime: updatedNamazTime,
+                            namazType: namazType);
+                        print('Alert dialog closed with status: $status');
+                        if (status) {
+                          masjidProvider.setAsarTime(updatedNamazTime);
+                          masjidProvider.updateNamazTime(
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .user
+                                  .uid);
+                        }
+                        break;
+                      case 'Maghrib':
+                        currentTime = masjidProvider.masjid.prayerTime.maghrib;
+                        status = await _showTimeChangeAlert(
+                            context: context,
+                            currentTime: currentTime,
+                            updatedTime: updatedNamazTime,
+                            namazType: namazType);
+                        print('Alert dialog closed with status: $status');
+                        if (status) {
+                          masjidProvider.setMaghribTime(updatedNamazTime);
+                          masjidProvider.updateNamazTime(
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .user
+                                  .uid);
+                        }
+                        break;
+                      case 'Isha':
+                        currentTime = masjidProvider.masjid.prayerTime.isha;
+                        status = await _showTimeChangeAlert(
+                            context: context,
+                            currentTime: currentTime,
+                            updatedTime: updatedNamazTime,
+                            namazType: namazType);
+                        print('Alert dialog closed with status: $status');
+                        if (status) {
+                          masjidProvider.setIshaTime(updatedNamazTime);
+                          masjidProvider.updateNamazTime(
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .user
+                                  .uid);
+                        }
+                        break;
+                      case 'Jummah':
+                        currentTime = masjidProvider.masjid.prayerTime.jummah;
+                        status = await _showTimeChangeAlert(
+                            context: context,
+                            currentTime: currentTime,
+                            updatedTime: updatedNamazTime,
+                            namazType: namazType);
+                        print('Alert dialog closed with status: $status');
+                        if (status) {
+                          masjidProvider.setJummahTime(updatedNamazTime);
+                          masjidProvider.updateNamazTime(
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .user
+                                  .uid);
+                        }
+                        break;
                     }
                   }
                 },
