@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:masjid_finder/ui/pages/user-login-screen.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:masjid_finder/enums/user-type.dart';

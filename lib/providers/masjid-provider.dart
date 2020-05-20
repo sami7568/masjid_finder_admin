@@ -54,4 +54,8 @@ class MasjidProvider extends ChangeNotifier {
   createMasjidInDb(uid) {
     FirestoreHelper().createMasjid(masjid: this.masjid, uid: uid);
   }
+
+  updateNamazTime(uid) {
+    FirestoreHelper().updateNamazTime(masjid: this.masjid, uid: uid);
+  }
 }

@@ -109,6 +109,19 @@ class FirestoreHelper {
     }
   }
 
+  updateNamazTime({Masjid masjid, uid}) async {
+    print('@updateNamazTime');
+    print('${masjid.toJson()}');
+    try {
+      await _db
+          .collection(_masjidCollection)
+          .document(uid)
+          .updateData(masjid.toJson());
+    } catch (e) {
+      print('Exception @creatMasjid: $e');
+    }
+  }
+
   getMasjid(uid) async {
     try {
       final snapshot = await _db.collection('masjid').document(uid).get();

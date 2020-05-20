@@ -8,7 +8,7 @@ import 'package:masjid_finder/ui/custom_widgets/asset-logo.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-rounded-textfield.dart';
 import 'package:masjid_finder/ui/pages/imam-signup-screen.dart';
-import 'package:masjid_finder/ui/pages/mosque-listed.dart';
+import 'package:masjid_finder/ui/pages/mosque-dashboard-screen.dart';
 import 'package:masjid_finder/ui/pages/mosque-not-listed.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
