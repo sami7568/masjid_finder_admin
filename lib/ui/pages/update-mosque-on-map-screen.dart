@@ -11,6 +11,7 @@ import 'package:masjid_finder/services/geolocator-helper.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-bottom-sheet.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
+import 'package:masjid_finder/ui/pages/mosque-dashboard-screen.dart';
 import 'package:provider/provider.dart';
 
 class UpdateMosqueOnMapScreen extends StatefulWidget {
@@ -273,7 +274,11 @@ class _UpdateMosqueOnMapScreenState extends State<UpdateMosqueOnMapScreen> {
             if (masjidProvider.locationAdded) {
               masjidProvider.masjid.geoLocation = GeoFirePoint(
                   masjidPinLocation.latitude, masjidPinLocation.longitude);
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MosqueDashboardScreen()),
+                  (r) => false);
             }
           },
         ),
