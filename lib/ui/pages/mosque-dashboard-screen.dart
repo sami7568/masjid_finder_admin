@@ -8,7 +8,9 @@ import 'package:masjid_finder/ui/custom_widgets/admin-app-bar.dart';
 import 'package:masjid_finder/ui/custom_widgets/mosque-listed-tile.dart';
 import 'package:masjid_finder/ui/custom_widgets/salam-card.dart';
 import 'package:masjid_finder/ui/pages/add-masjid-screen1.dart';
+import 'package:masjid_finder/ui/pages/follow-a-mosque-screen.dart';
 import 'package:masjid_finder/ui/pages/masjid-details-screen.dart';
+import 'package:masjid_finder/ui/pages/mosque-subscriebrs-list.dart';
 import 'package:provider/provider.dart';
 
 class MosqueDashboardScreen extends StatefulWidget {
@@ -28,11 +30,10 @@ class _MosqueDashboardScreenState extends State<MosqueDashboardScreen> {
 
   _getMasjidData() async {
     print('@getMasjidData');
-    final masjidData = await FirestoreHelper()
+    final Masjid masjidData = await FirestoreHelper()
         .getMasjid(Provider.of<AuthProvider>(context, listen: false).user.uid);
     if (masjidData != null) {
-      Provider.of<MasjidProvider>(context, listen: false).masjid =
-          Masjid.fromJson(masjidData);
+      Provider.of<MasjidProvider>(context, listen: false).masjid = masjidData;
       contents = _mosqueListedContents();
     } else {
       contents = _mosqueNotListedContents();
@@ -104,7 +105,14 @@ class _MosqueDashboardScreenState extends State<MosqueDashboardScreen> {
                 icon: "masjid-icon",
                 text: "Synchronise time with a Jamia Masjid.",
                 buttonText: "Follow Masjid",
-                onButtonPressed: () {},
+                onButtonPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FollowAMosqueScreen(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -119,7 +127,12 @@ class _MosqueDashboardScreenState extends State<MosqueDashboardScreen> {
                 icon: "followers-icon",
                 text: "View people who follow your masjid.",
                 buttonText: "View Subscribers",
-                onButtonPressed: () {},
+                onButtonPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MosqueSubscribersList()));
+                },
               ),
               Spacer(),
             ],

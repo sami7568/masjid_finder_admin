@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:masjid_finder/models/prayer-time-model.dart';
 
@@ -9,6 +10,7 @@ class Masjid {
   PrayerTime prayerTime;
   int subscribers;
   String status;
+  String firestoreId;
 
   Masjid({
     this.name = 'Masjid Name',
@@ -21,7 +23,9 @@ class Masjid {
     this.prayerTime = PrayerTime();
   }
 
-  Masjid.fromJson(masjidData) {
+  Masjid.fromJson(DocumentSnapshot snapshot) {
+    final masjidData = snapshot.data;
+    this.firestoreId = snapshot.reference.documentID;
     this.name = masjidData['name'];
     this.address = masjidData['address'];
     this.geoLocation = GeoFirePoint(

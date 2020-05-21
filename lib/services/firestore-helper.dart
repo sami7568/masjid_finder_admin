@@ -126,12 +126,48 @@ class FirestoreHelper {
     try {
       final snapshot = await _db.collection('masjid').document(uid).get();
       if (snapshot != null)
-        return snapshot.data;
+        return Masjid.fromJson(snapshot);
       else
         return null;
     } catch (e) {
       print('Exception @getMasjid: $e');
       return null;
+    }
+  }
+
+  Future<List<Masjid>> getJamiaMasjidList() async {
+    try {
+      final snapshot = await _db
+          .collection(_masjidCollection)
+          .where('isJamiaMasjid', isEqualTo: true)
+          .limit(10)
+          .getDocuments();
+      print(
+          '@getJamiaMasjidList: Masjids count is ${snapshot.documents.length}');
+      if (snapshot.documents.length > 0) {
+        return snapshot.documents.map((masjidData) {
+          return Masjid.fromJson(masjidData);
+        }).toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print('Exception @getJamiaMasjidList: $e');
+      return [];
+    }
+  }
+
+  Future<List<DocumentSnapshot>> getSubscribers(uid) async {
+    print('@getSubscribers');
+    try {
+      final snapshot = await _db
+          .collection('subscribers')
+          .where('masjidId', isEqualTo: uid)
+          .getDocuments();
+      return snapshot.documents;
+    } catch (e) {
+      print('Exception @getSubscribers: $e');
+      return [];
     }
   }
 }
