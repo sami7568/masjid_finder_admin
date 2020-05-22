@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
 import 'package:masjid_finder/providers/masjid-provider.dart';
+import 'package:masjid_finder/services/directions-helper.dart';
 import 'package:masjid_finder/ui/pages/masjid-details-screen.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +13,9 @@ import 'cusom-black-outlined-button.dart';
 
 class CustomBottomSheet extends StatelessWidget {
   final Masjid masjidData;
+  final LatLng currentLocation;
 
-  CustomBottomSheet({this.masjidData});
+  CustomBottomSheet({this.masjidData, this.currentLocation});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,13 @@ class CustomBottomSheet extends StatelessWidget {
                 CustomBlackOutlinedButton(
                   child: Text('DIRECTIONS',
                       style: blackBtnTS.copyWith(color: Colors.black)),
-                  onPressed: () {},
+                  onPressed: () {
+                    DirectionsHelper().navigate(
+                        origin: currentLocation,
+                        destination: LatLng(
+                            masjidData.position.geoPoint.latitude,
+                            masjidData.position.geoPoint.longitude));
+                  },
                 ),
               ],
             )

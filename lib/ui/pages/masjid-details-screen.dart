@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/providers/masjid-provider.dart';
+import 'package:masjid_finder/services/directions-helper.dart';
 import 'package:masjid_finder/services/firestore-helper.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-outlined-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-blue-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-alert-dialog.dart';
-import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/login-alert-dialog.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 import 'package:provider/provider.dart';
 
 class MasjidDetailsScreen extends StatefulWidget {
+  final LatLng currentLocation;
+
+  MasjidDetailsScreen({this.currentLocation});
+
   @override
   _MasjidDetailsScreenState createState() => _MasjidDetailsScreenState();
 }
@@ -195,6 +200,13 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
                     'Direction',
                     style: blackBtnTS.copyWith(color: Colors.black),
                   ),
+                  onPressed: () {
+                    DirectionsHelper().navigate(
+                        origin: widget.currentLocation,
+                        destination: LatLng(
+                            masjidProvider.masjid.position.geoPoint.latitude,
+                            masjidProvider.masjid.position.geoPoint.longitude));
+                  },
                 )
               ],
             ),
