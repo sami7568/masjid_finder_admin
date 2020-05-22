@@ -63,7 +63,7 @@ class CustomBottomSheet extends StatelessWidget {
                   child: Text('DIRECTIONS',
                       style: blackBtnTS.copyWith(color: Colors.black)),
                   onPressed: () {},
-                )
+                ),
               ],
             )
           ],

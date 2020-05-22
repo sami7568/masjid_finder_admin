@@ -6,12 +6,39 @@ import 'package:masjid_finder/providers/masjid-provider.dart';
 import 'package:masjid_finder/services/firestore-helper.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/cusom-black-outlined-button.dart';
+import 'package:masjid_finder/ui/custom_widgets/cusom-blue-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-alert-dialog.dart';
+import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/login-alert-dialog.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 import 'package:provider/provider.dart';
 
-class MasjidDetailsScreen extends StatelessWidget {
+class MasjidDetailsScreen extends StatefulWidget {
+  @override
+  _MasjidDetailsScreenState createState() => _MasjidDetailsScreenState();
+}
+
+class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
+  bool isFollowed = false;
+
+  @override
+  void initState() {
+    if (Provider.of<AuthProvider>(context, listen: false).isLogin) {
+      FirestoreHelper()
+          .checkIfFollowed(
+              masjid:
+                  Provider.of<MasjidProvider>(context, listen: false).masjid,
+              user: Provider.of<AuthProvider>(context, listen: false).user)
+          .then((status) {
+        setState(() {
+          isFollowed = status;
+        });
+      });
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,19 +115,31 @@ class MasjidDetailsScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  CustomBlackButton(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.notifications,
-                            color: Colors.white, size: 17),
-                        SizedBox(width: 4),
-                        Text('subscribe', style: blackBtnTS),
-                      ],
-                    ),
-                    onPressed: () {
-                      _followMosque(context);
-                    },
-                  ),
+                  isFollowed
+                      ? CustomBlackButton(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.notifications,
+                                  color: Colors.white, size: 17),
+                              SizedBox(width: 4),
+                              Text('subscribe', style: blackBtnTS),
+                            ],
+                          ),
+                          onPressed: () {
+                            _followMosque(context);
+                          },
+                        )
+                      : CustomBlueButton(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.notifications,
+                                  color: Colors.white, size: 17),
+                              SizedBox(width: 4),
+                              Text('Subscribed', style: blackBtnTS),
+                            ],
+                          ),
+                          onPressed: () {},
+                        ),
                   Text(
                     '${masjidProvider.masjid.subscribers} subscribers' ??
                         '0 subscribers',
@@ -119,8 +158,6 @@ class MasjidDetailsScreen extends StatelessWidget {
     if (Provider.of<AuthProvider>(context, listen: false).isLogin) {
       final user = Provider.of<AuthProvider>(context, listen: false).user;
       final masjid = Provider.of<MasjidProvider>(context, listen: false).masjid;
-      final isFollowed =
-          await FirestoreHelper().followMosque(masjid: masjid, user: user);
       if (isFollowed) {
         print('success');
       } else {

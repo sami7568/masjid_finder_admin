@@ -4,7 +4,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
 import 'dart:io';
 
-
 class FirestoreHelper {
   final _db = Firestore.instance;
   final _userCollection = 'users';
@@ -174,20 +173,26 @@ class FirestoreHelper {
     }
   }
 
-  Future<bool> followMosque({Masjid masjid, FirebaseUser user}) async {
+  Future<void> followMosque({Masjid masjid, FirebaseUser user}) async {
+    try {
+      await _db.collection(_subscribersCollection).add({
+        'userId': user.uid,
+        'masjidId': masjid.firestoreId,
+        'fullName': user.displayName,
+      });
+    } catch (e) {
+      print('Exceptin @followMosque: $e');
+    }
+  }
+
+  Future<bool> checkIfFollowed({Masjid masjid, FirebaseUser user}) async {
     try {
       final snapshot = await _db
           .collection(_subscribersCollection)
           .where('userId', isEqualTo: user.uid)
           .where('masjidId', isEqualTo: masjid.firestoreId)
           .getDocuments();
-      if (snapshot.documents.length == 0) {
-        await _db.collection(_subscribersCollection).add({
-          'userId': user.uid,
-          'masjidId': masjid.firestoreId,
-          'fullName': user.displayName,
-//          'address': 'User address',
-        });
+      if (snapshot.documents.length > 0) {
         return true;
       } else {
         return false;
