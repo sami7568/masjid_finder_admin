@@ -62,12 +62,13 @@ class _ShowMosquesOnMapScreenState extends State<ShowMosquesOnMapScreen> {
       lat = masjid.position.geoPoint.latitude;
       long = masjid.position.geoPoint.longitude;
       markers.add(Marker(
-        icon: masjid.isJamiaMasjid ? jamiaMasjidPinIcon : masjidPinIcon,
-        position: LatLng(lat, long),
-        markerId: MarkerId('$lat,$long'),
-        infoWindow: InfoWindow(title: '${masjid.name}'),
-        onTap: (){_showBottomSheet(masjid);}
-      ));
+          icon: masjid.isJamiaMasjid ? jamiaMasjidPinIcon : masjidPinIcon,
+          position: LatLng(lat, long),
+          markerId: MarkerId('$lat,$long'),
+          infoWindow: InfoWindow(title: '${masjid.name}'),
+          onTap: () {
+            _showBottomSheet(masjid);
+          }));
     }
     setState(() {});
   }
@@ -293,7 +294,11 @@ class _ShowMosquesOnMapScreenState extends State<ShowMosquesOnMapScreen> {
   _showBottomSheet(Masjid masjid) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => CustomBottomSheet(masjidData: masjid,),
+      builder: (context) => CustomBottomSheet(
+        masjidData: masjid,
+        currentLocation:
+            LatLng(currentLocation.latitude, currentLocation.longitude),
+      ),
     );
   }
 }

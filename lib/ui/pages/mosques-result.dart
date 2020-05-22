@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
 import 'package:masjid_finder/providers/masjid-provider.dart';
@@ -22,6 +23,7 @@ class _MosquesResultState extends State<MosquesResult> {
   bool gotData = false, noData = false;
   List<Masjid> _mosquesList = [];
   final geoLocatorHelper = GeoLocatorHelper();
+  Position currentLocation;
 
   @override
   void initState() {
@@ -30,7 +32,7 @@ class _MosquesResultState extends State<MosquesResult> {
   }
 
   _getNearbyMosquesData() async {
-    final currentLocation = await Geolocator().getCurrentPosition(
+    currentLocation = await Geolocator().getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best,
         locationPermissionLevel: GeolocationPermission.location);
 
@@ -152,7 +154,10 @@ class _MosquesResultState extends State<MosquesResult> {
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  MasjidDetailsScreen(),
+                                  MasjidDetailsScreen(
+                                      currentLocation: LatLng(
+                                          currentLocation.latitude,
+                                          currentLocation.longitude)),
                             ),
                           );
                         },
