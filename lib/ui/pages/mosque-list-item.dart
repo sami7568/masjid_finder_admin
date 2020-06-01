@@ -37,6 +37,7 @@ class MosqueListItem extends StatelessWidget {
             ),
           ]),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           //Mosque Icon
           Flexible(
