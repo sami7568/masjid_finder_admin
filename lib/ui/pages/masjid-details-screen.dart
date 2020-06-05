@@ -25,6 +25,7 @@ class MasjidDetailsScreen extends StatefulWidget {
 
 class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
   bool isFollowed = false;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -40,13 +41,13 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
         });
       });
     }
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: SingleChildScrollView(
           child: _body(context),
@@ -130,7 +131,9 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
                               Text('Subscribed', style: blackBtnTS),
                             ],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _unFollowMosque(context);
+                          },
                         )
                       : CustomBlackButton(
                           child: Row(
@@ -138,7 +141,7 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
                               Icon(Icons.notifications,
                                   color: Colors.white, size: 17),
                               SizedBox(width: 4),
-                              Text('subscribe', style: blackBtnTS),
+                              Text('Subscribe', style: blackBtnTS),
                             ],
                           ),
                           onPressed: () {
@@ -160,16 +163,26 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
 
   _followMosque(context) async {
     if (Provider.of<AuthProvider>(context, listen: false).isLogin) {
+      _showSnackBar('You have successfully subscribed the mosque');
       final user = Provider.of<AuthProvider>(context, listen: false).user;
       final masjid = Provider.of<MasjidProvider>(context, listen: false).masjid;
-      if (isFollowed) {
-        print('success');
-      } else {
-        print('failed');
-      }
+      setState(() {
+        isFollowed = true;
+      });
+      FirestoreHelper().followMosque(masjid: masjid, user: user);
     } else {
       _showLoginAlert(context);
     }
+  }
+
+  _unFollowMosque(context) async {
+    _showSnackBar('You have successfully unsubscribed the mosque');
+    final user = Provider.of<AuthProvider>(context, listen: false).user;
+    final masjid = Provider.of<MasjidProvider>(context, listen: false).masjid;
+    setState(() {
+      isFollowed = false;
+    });
+    FirestoreHelper().unFollowMosque(masjid: masjid, user: user);
   }
 
   _showLoginAlert(context) {
@@ -454,5 +467,11 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
     );
 
     return status;
+  }
+
+  _showSnackBar(content) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(content),
+    ));
   }
 }

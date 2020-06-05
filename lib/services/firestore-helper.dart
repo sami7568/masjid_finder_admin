@@ -175,7 +175,10 @@ class FirestoreHelper {
 
   Future<void> followMosque({Masjid masjid, FirebaseUser user}) async {
     try {
-      await _db.collection(_subscribersCollection).add({
+      await _db
+          .collection(_subscribersCollection)
+          .document('${masjid.firestoreId}_${user.uid}')
+          .setData({
         'userId': user.uid,
         'masjidId': masjid.firestoreId,
         'fullName': user.displayName,
@@ -185,14 +188,26 @@ class FirestoreHelper {
     }
   }
 
+  Future<void> unFollowMosque({Masjid masjid, FirebaseUser user}) async {
+    print('@unFollowMosque');
+    try {
+      await _db
+          .collection(_subscribersCollection)
+          .document('${masjid.firestoreId}_${user.uid}')
+          .delete();
+      print('Mosque unfollowed');
+    } catch (e) {
+      print('Exceptin @unFollowMosque: $e');
+    }
+  }
+
   Future<bool> checkIfFollowed({Masjid masjid, FirebaseUser user}) async {
     try {
       final snapshot = await _db
           .collection(_subscribersCollection)
-          .where('userId', isEqualTo: user.uid)
-          .where('masjidId', isEqualTo: masjid.firestoreId)
-          .getDocuments();
-      if (snapshot.documents.length > 0) {
+          .document('${masjid.firestoreId}_${user.uid}')
+          .get();
+      if (snapshot.data != null) {
         return true;
       } else {
         return false;
