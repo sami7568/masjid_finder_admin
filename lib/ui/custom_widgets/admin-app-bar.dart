@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:masjid_finder/providers/auth-provider.dart';
+import 'package:masjid_finder/ui/pages/prompt-screen.dart';
+import 'package:provider/provider.dart';
 
 class AdminAppBar extends StatelessWidget {
   @override
@@ -17,7 +20,11 @@ class AdminAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<AuthProvider>(context, listen: false).logout();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PromptScreen()));
+            },
           ),
           Spacer(),
           Container(

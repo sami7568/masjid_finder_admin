@@ -25,6 +25,7 @@ class MasjidDetailsScreen extends StatefulWidget {
 
 class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
   bool isFollowed = false;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -40,13 +41,13 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
         });
       });
     }
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: SingleChildScrollView(
           child: _body(context),
@@ -121,20 +122,7 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   isFollowed
-                      ? CustomBlackButton(
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.notifications,
-                                  color: Colors.white, size: 17),
-                              SizedBox(width: 4),
-                              Text('subscribe', style: blackBtnTS),
-                            ],
-                          ),
-                          onPressed: () {
-                            _followMosque(context);
-                          },
-                        )
-                      : CustomBlueButton(
+                      ? CustomBlueButton(
                           child: Row(
                             children: <Widget>[
                               Icon(Icons.notifications,
@@ -143,11 +131,25 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
                               Text('Subscribed', style: blackBtnTS),
                             ],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _unFollowMosque(context);
+                          },
+                        )
+                      : CustomBlackButton(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.notifications,
+                                  color: Colors.white, size: 17),
+                              SizedBox(width: 4),
+                              Text('Subscribe', style: blackBtnTS),
+                            ],
+                          ),
+                          onPressed: () {
+                            _followMosque(context);
+                          },
                         ),
                   Text(
-                    '${masjidProvider.masjid.subscribers} subscribers' ??
-                        '0 subscribers',
+                    '${masjidProvider.masjid.subscribers ?? 0} subscribers',
                     style: subscribersTS,
                   )
                 ],
@@ -161,16 +163,26 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
 
   _followMosque(context) async {
     if (Provider.of<AuthProvider>(context, listen: false).isLogin) {
+      _showSnackBar('You have successfully subscribed the mosque');
       final user = Provider.of<AuthProvider>(context, listen: false).user;
       final masjid = Provider.of<MasjidProvider>(context, listen: false).masjid;
-      if (isFollowed) {
-        print('success');
-      } else {
-        print('failed');
-      }
+      setState(() {
+        isFollowed = true;
+      });
+      FirestoreHelper().followMosque(masjid: masjid, user: user);
     } else {
       _showLoginAlert(context);
     }
+  }
+
+  _unFollowMosque(context) async {
+    _showSnackBar('You have successfully unsubscribed the mosque');
+    final user = Provider.of<AuthProvider>(context, listen: false).user;
+    final masjid = Provider.of<MasjidProvider>(context, listen: false).masjid;
+    setState(() {
+      isFollowed = false;
+    });
+    FirestoreHelper().unFollowMosque(masjid: masjid, user: user);
   }
 
   _showLoginAlert(context) {
@@ -188,8 +200,9 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Address', style: subHeadingTextStyle),
+                    Text('Location', style: subHeadingTextStyle),
                     SizedBox(height: 10),
                     Text(masjidProvider.masjid.address,
                         style: mainBodyTextStyle),
@@ -213,11 +226,11 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25, top: 15),
-            child: Text('Change Prayer Timings', style: subHeadingTextStyle),
+            child: Text('Prayer Timings', style: subHeadingTextStyle),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25, bottom: 10, top: 9),
-            child: Text('Tap a prayer tile to change its timings.'),
+            child: Text('Subscribe to get notified of change in timings.'),
           ),
           namazTile(
               namazType: 'Fajar',
@@ -258,7 +271,7 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
   namazTile({iconUrl, namazType, time, context}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 25, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
@@ -279,120 +292,120 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
             ],
           ),
           Row(children: <Widget>[
-            Consumer<MasjidProvider>(
-              builder: (context, masjidProvider, child) => IconButton(
-                icon: Icon(Icons.mode_edit, color: Colors.black),
-                onPressed: () async {
-                  TimeOfDay time = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay(hour: 12, minute: 00));
-//                  print(time.format(context));
-                  if (time != null) {
-                    var currentTime;
-                    bool status = false;
-                    final updatedNamazTime = time.format(context);
-                    switch (namazType) {
-                      case 'Fajar':
-                        currentTime = masjidProvider.masjid.prayerTime.fajar;
-                        status = await _showTimeChangeAlert(
-                            context: context,
-                            currentTime: currentTime,
-                            updatedTime: updatedNamazTime,
-                            namazType: namazType);
-                        print('Alert dialog closed with status: $status');
-                        if (status) {
-                          masjidProvider.setFajarTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .user
-                                  .uid);
-                        }
-                        break;
-                      case 'Zuhar':
-                        currentTime = masjidProvider.masjid.prayerTime.zuhar;
-                        status = await _showTimeChangeAlert(
-                            context: context,
-                            currentTime: currentTime,
-                            updatedTime: updatedNamazTime,
-                            namazType: namazType);
-                        print('Alert dialog closed with status: $status');
-                        if (status) {
-                          masjidProvider.setZuharTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .user
-                                  .uid);
-                        }
-                        break;
-                      case 'Asar':
-                        currentTime = masjidProvider.masjid.prayerTime.asar;
-                        status = await _showTimeChangeAlert(
-                            context: context,
-                            currentTime: currentTime,
-                            updatedTime: updatedNamazTime,
-                            namazType: namazType);
-                        print('Alert dialog closed with status: $status');
-                        if (status) {
-                          masjidProvider.setAsarTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .user
-                                  .uid);
-                        }
-                        break;
-                      case 'Maghrib':
-                        currentTime = masjidProvider.masjid.prayerTime.maghrib;
-                        status = await _showTimeChangeAlert(
-                            context: context,
-                            currentTime: currentTime,
-                            updatedTime: updatedNamazTime,
-                            namazType: namazType);
-                        print('Alert dialog closed with status: $status');
-                        if (status) {
-                          masjidProvider.setMaghribTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .user
-                                  .uid);
-                        }
-                        break;
-                      case 'Isha':
-                        currentTime = masjidProvider.masjid.prayerTime.isha;
-                        status = await _showTimeChangeAlert(
-                            context: context,
-                            currentTime: currentTime,
-                            updatedTime: updatedNamazTime,
-                            namazType: namazType);
-                        print('Alert dialog closed with status: $status');
-                        if (status) {
-                          masjidProvider.setIshaTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .user
-                                  .uid);
-                        }
-                        break;
-                      case 'Jummah':
-                        currentTime = masjidProvider.masjid.prayerTime.jummah;
-                        status = await _showTimeChangeAlert(
-                            context: context,
-                            currentTime: currentTime,
-                            updatedTime: updatedNamazTime,
-                            namazType: namazType);
-                        print('Alert dialog closed with status: $status');
-                        if (status) {
-                          masjidProvider.setJummahTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
-                              Provider.of<AuthProvider>(context, listen: false)
-                                  .user
-                                  .uid);
-                        }
-                        break;
-                    }
-                  }
-                },
-              ),
-            ),
+//            Consumer<MasjidProvider>(
+//              builder: (context, masjidProvider, child) => IconButton(
+//                icon: Icon(Icons.mode_edit, color: Colors.black),
+//                onPressed: () async {
+//                  TimeOfDay time = await showTimePicker(
+//                      context: context,
+//                      initialTime: TimeOfDay(hour: 12, minute: 00));
+////                  print(time.format(context));
+//                  if (time != null) {
+//                    var currentTime;
+//                    bool status = false;
+//                    final updatedNamazTime = time.format(context);
+//                    switch (namazType) {
+//                      case 'Fajar':
+//                        currentTime = masjidProvider.masjid.prayerTime.fajar;
+//                        status = await _showTimeChangeAlert(
+//                            context: context,
+//                            currentTime: currentTime,
+//                            updatedTime: updatedNamazTime,
+//                            namazType: namazType);
+//                        print('Alert dialog closed with status: $status');
+//                        if (status) {
+//                          masjidProvider.setFajarTime(updatedNamazTime);
+//                          masjidProvider.updateNamazTime(
+//                              Provider.of<AuthProvider>(context, listen: false)
+//                                  .user
+//                                  .uid);
+//                        }
+//                        break;
+//                      case 'Zuhar':
+//                        currentTime = masjidProvider.masjid.prayerTime.zuhar;
+//                        status = await _showTimeChangeAlert(
+//                            context: context,
+//                            currentTime: currentTime,
+//                            updatedTime: updatedNamazTime,
+//                            namazType: namazType);
+//                        print('Alert dialog closed with status: $status');
+//                        if (status) {
+//                          masjidProvider.setZuharTime(updatedNamazTime);
+//                          masjidProvider.updateNamazTime(
+//                              Provider.of<AuthProvider>(context, listen: false)
+//                                  .user
+//                                  .uid);
+//                        }
+//                        break;
+//                      case 'Asar':
+//                        currentTime = masjidProvider.masjid.prayerTime.asar;
+//                        status = await _showTimeChangeAlert(
+//                            context: context,
+//                            currentTime: currentTime,
+//                            updatedTime: updatedNamazTime,
+//                            namazType: namazType);
+//                        print('Alert dialog closed with status: $status');
+//                        if (status) {
+//                          masjidProvider.setAsarTime(updatedNamazTime);
+//                          masjidProvider.updateNamazTime(
+//                              Provider.of<AuthProvider>(context, listen: false)
+//                                  .user
+//                                  .uid);
+//                        }
+//                        break;
+//                      case 'Maghrib':
+//                        currentTime = masjidProvider.masjid.prayerTime.maghrib;
+//                        status = await _showTimeChangeAlert(
+//                            context: context,
+//                            currentTime: currentTime,
+//                            updatedTime: updatedNamazTime,
+//                            namazType: namazType);
+//                        print('Alert dialog closed with status: $status');
+//                        if (status) {
+//                          masjidProvider.setMaghribTime(updatedNamazTime);
+//                          masjidProvider.updateNamazTime(
+//                              Provider.of<AuthProvider>(context, listen: false)
+//                                  .user
+//                                  .uid);
+//                        }
+//                        break;
+//                      case 'Isha':
+//                        currentTime = masjidProvider.masjid.prayerTime.isha;
+//                        status = await _showTimeChangeAlert(
+//                            context: context,
+//                            currentTime: currentTime,
+//                            updatedTime: updatedNamazTime,
+//                            namazType: namazType);
+//                        print('Alert dialog closed with status: $status');
+//                        if (status) {
+//                          masjidProvider.setIshaTime(updatedNamazTime);
+//                          masjidProvider.updateNamazTime(
+//                              Provider.of<AuthProvider>(context, listen: false)
+//                                  .user
+//                                  .uid);
+//                        }
+//                        break;
+//                      case 'Jummah':
+//                        currentTime = masjidProvider.masjid.prayerTime.jummah;
+//                        status = await _showTimeChangeAlert(
+//                            context: context,
+//                            currentTime: currentTime,
+//                            updatedTime: updatedNamazTime,
+//                            namazType: namazType);
+//                        print('Alert dialog closed with status: $status');
+//                        if (status) {
+//                          masjidProvider.setJummahTime(updatedNamazTime);
+//                          masjidProvider.updateNamazTime(
+//                              Provider.of<AuthProvider>(context, listen: false)
+//                                  .user
+//                                  .uid);
+//                        }
+//                        break;
+//                    }
+//                  }
+//                },
+//              ),
+//            ),
             SizedBox(width: 4),
             Text(
               time,
@@ -454,5 +467,11 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
     );
 
     return status;
+  }
+
+  _showSnackBar(content) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(content),
+    ));
   }
 }
