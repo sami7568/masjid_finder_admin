@@ -14,19 +14,25 @@ import 'package:masjid_finder/ui/custom_widgets/cusom-blue-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-alert-dialog.dart';
 import 'package:masjid_finder/ui/custom_widgets/login-alert-dialog.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
+import 'package:masjid_finder/ui/custom_widgets/time-change-alert-dialog.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
-class MasjidDetailsScreen extends StatefulWidget {
-//  final LatLng currentLocation;
-//
-//  MasjidDetailsScreen({this.currentLocation});
+class TimeChangeMasjidDetailsScreen extends StatefulWidget {
+  final isAlertRequired;
+  final title;
+  final body;
+
+  TimeChangeMasjidDetailsScreen(
+      {this.isAlertRequired = false, this.title, this.body});
 
   @override
-  _MasjidDetailsScreenState createState() => _MasjidDetailsScreenState();
+  _TimeChangeMasjidDetailsScreenState createState() =>
+      _TimeChangeMasjidDetailsScreenState();
 }
 
-class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
+class _TimeChangeMasjidDetailsScreenState
+    extends State<TimeChangeMasjidDetailsScreen> {
   bool isFollowed = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   Position currentLocation;
@@ -34,6 +40,9 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
 
   @override
   void initState() {
+    if (widget.isAlertRequired) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showAlertDialog());
+    }
     if (Provider.of<AuthProvider>(context, listen: false).isLogin) {
       FirestoreHelper()
           .checkIfFollowed(
@@ -47,6 +56,16 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
       });
     }
     super.initState();
+  }
+
+  _showAlertDialog() {
+    showDialog(
+      context: context,
+      child: TimeChangeAlertDialog(
+        title: widget.title,
+        body: widget.body,
+      ),
+    );
   }
 
   @override
