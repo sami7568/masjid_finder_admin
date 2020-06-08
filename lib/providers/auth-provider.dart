@@ -5,6 +5,7 @@ import 'package:masjid_finder/services/auth-exception-handler.dart';
 import 'package:masjid_finder/enums/auth-result-status.dart';
 import 'package:masjid_finder/services/firestore-helper.dart';
 import 'package:masjid_finder/services/sharedPrefs-helper.dart';
+import 'package:masjid_finder/services/string-helper.dart';
 
 class AuthProvider extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
@@ -78,6 +79,12 @@ class AuthProvider extends ChangeNotifier {
         _status = AuthResultStatus.successful;
         _firestoreHelper.createUser(
             user: user, userId: _user.uid, isImam: isImam);
+
+        /// Update userName in FirebaseAuth
+        UserUpdateInfo updatedInfo = UserUpdateInfo();
+
+        updatedInfo.displayName = StringHelper().wordCapitalize(user.fullName);
+        await updateUserInfo(updatedInfo);
       } else {
         _status = AuthResultStatus.undefined;
       }
@@ -141,6 +148,25 @@ class AuthProvider extends ChangeNotifier {
       print('Exception @createAccount: $e');
       _status = AuthExceptionHandler.handleException(e);
     }
+    notifyListeners();
+  }
+
+  Future<void> updateUserInfo(UserUpdateInfo updatedInfo) async {
+//    print(updatedInfo.photoUrl);
+    final user = await _auth.currentUser();
+//    print('Before update: ${user.displayName}, ${user.photoUrl}');
+    await user.updateProfile(updatedInfo);
+    await reloadUser();
+  }
+
+  reloadUser() async {
+    final user = await _auth.currentUser();
+    if (user == null) return null;
+    print('Reloading User...');
+    await user.reload();
+    final newUser = await FirebaseAuth.instance.currentUser();
+    print('After update: ${newUser.displayName}');
+    _user = newUser;
     notifyListeners();
   }
 
