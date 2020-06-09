@@ -176,9 +176,10 @@ class _MosqueDashboardScreenState extends State<MosqueDashboardScreen> {
                 buttonText: "View Subscribers",
                 onButtonPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MosqueSubscribersList()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MosqueSubscribersList()),
+                  );
                 },
               ),
 //              MosqueListedTile(
