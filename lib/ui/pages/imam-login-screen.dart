@@ -4,6 +4,7 @@ import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/enums/auth-result-status.dart';
 import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/services/auth-exception-handler.dart';
+import 'package:masjid_finder/services/firestore-helper.dart';
 import 'package:masjid_finder/ui/custom_widgets/asset-logo.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-rounded-textfield.dart';
@@ -103,16 +104,34 @@ class _ImamLoginScreenState extends State<ImamLoginScreen> {
                 });
                 await authProvider.login(
                     email: email, pass: password, isImam: true);
-                setState(() {
-                  isInProgress = false;
-                });
                 if (authProvider.status == AuthResultStatus.successful) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MosqueNotListed()),
-                      (r) => false);
+                  /// Check if mosque added, navigate to dashboard screens
+                  /// otherwise navigate to add mosque screen
+                  ///
+                  final masjid = FirestoreHelper()
+                      .getMasjid(context.read<AuthProvider>().user.uid);
+                  setState(() {
+                    isInProgress = false;
+                  });
+                  if (masjid != null) {
+                    /// If masjid relevant to [uid] found, means mosque added.
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MosqueDashboardScreen()),
+                        (r) => false);
+                  } else {
+                    /// If masjid relevant to [uid] not found, means mosque not added yet.
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MosqueNotListed()),
+                        (r) => false);
+                  }
                 } else {
+                  setState(() {
+                    isInProgress = false;
+                  });
                   final errorMsg =
                       AuthExceptionHandler.generateExceptionMessage(
                           authProvider.status);
