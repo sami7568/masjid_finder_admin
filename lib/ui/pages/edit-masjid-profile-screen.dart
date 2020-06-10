@@ -10,7 +10,6 @@ import 'package:masjid_finder/ui/pages/edit-profile-screen.dart';
 import 'package:provider/provider.dart';
 
 class EditMasjidProfileScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

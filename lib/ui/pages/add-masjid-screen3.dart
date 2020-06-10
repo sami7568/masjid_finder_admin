@@ -3,7 +3,6 @@ import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/providers/masjid-provider.dart';
-import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 import 'package:masjid_finder/ui/pages/masjid-details-screen.dart';
 import 'package:provider/provider.dart';

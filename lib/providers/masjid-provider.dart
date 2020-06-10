@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
-import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/services/firestore-helper.dart';
 
 class MasjidProvider extends ChangeNotifier {

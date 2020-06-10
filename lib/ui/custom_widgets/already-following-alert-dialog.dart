@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
-import 'package:masjid_finder/ui/custom_widgets/cusom-black-outlined-button.dart';
 
 class AlreadyFollowingAlert extends StatelessWidget {
   final title;

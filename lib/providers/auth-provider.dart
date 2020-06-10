@@ -12,7 +12,6 @@ class AuthProvider extends ChangeNotifier {
   final _firestoreHelper = FirestoreHelper();
   final _sharedPrefsHelper = SharePrefHelper();
   bool loginInProgress = false;
-
   bool _isLogin = false;
   UserType _userType;
   FirebaseUser _user;
@@ -22,17 +21,19 @@ class AuthProvider extends ChangeNotifier {
     print('@AuthProvider');
     _userType = _sharedPrefsHelper.getUserType();
     print('userType: $_userType');
-    _auth.onAuthStateChanged.listen((firebaseUser) {
-      _user = firebaseUser;
+    _auth.onAuthStateChanged.listen(
+      (firebaseUser) {
+        _user = firebaseUser;
 //      print(_user.email);
-      if (_user != null) {
-        _isLogin = true;
+        if (_user != null) {
+          _isLogin = true;
 //        print('Login status: $_isLogin');
-      } else
-        _isLogin = false;
-      notifyListeners();
-      print('@AuthProvider: Login state changed: $isLogin');
-    });
+        } else
+          _isLogin = false;
+        notifyListeners();
+        print('@AuthProvider: Login state changed: $isLogin');
+      },
+    );
     print('User Login status: $_isLogin');
   }
 
@@ -118,7 +119,7 @@ class AuthProvider extends ChangeNotifier {
         /// created as Imam. If successful, go ahead otherwise logout
         /// from firebase auth.
 
-        _firestoreHelper.createFcmToken(authResult.user.uid);
+        _firestoreHelper.createFcmToken(authResult.user.uid, isImam);
         if (userType == UserType.imam) {
           final status = await _firestoreHelper.checkIfImam(_user.uid);
           if (status) {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:masjid_finder/constants/colors.dart';
-import 'package:masjid_finder/constants/text-styles.dart';
 
 class CustomWhiteRoundedButton extends StatelessWidget {
   final onPressed;

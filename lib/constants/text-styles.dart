@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
-import 'package:masjid_finder/main.dart';
 
 const mainHeadingTextStyle = TextStyle(
   fontFamily: 'Poppins',

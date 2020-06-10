@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/models/masjid-model.dart';
-
-import 'cusom-black-button.dart';
 
 class MasjidDetailsHeader extends StatelessWidget {
   final name;

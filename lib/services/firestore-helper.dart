@@ -37,22 +37,31 @@ class FirestoreHelper {
               .collection(_userCollection)
               .document(userId)
               .setData(user.toJson());
-      if (!isImam) createFcmToken(userId);
+      createFcmToken(userId, isImam);
     } catch (e) {
       print('Exception @createUser: $e');
     }
   }
 
-  createFcmToken(userId) async {
+  createFcmToken(userId, isImam) async {
     try {
       print('@createFcmToken');
       FirebaseMessaging fcm = FirebaseMessaging();
       final fcmToken = await fcm.getToken();
-      DocumentReference fcmRef = _db
-          .collection(_userCollection)
-          .document(userId)
-          .collection('fcm_tokens')
-          .document(fcmToken);
+      DocumentReference fcmRef;
+      if (isImam) {
+        fcmRef = _db
+            .collection(_imamCollection)
+            .document(userId)
+            .collection('fcm_tokens')
+            .document(fcmToken);
+      } else {
+        _db
+            .collection(_userCollection)
+            .document(userId)
+            .collection('fcm_tokens')
+            .document(fcmToken);
+      }
       final snapshot = await fcmRef.get();
 
       if (snapshot.data == null) {
@@ -103,7 +112,7 @@ class FirestoreHelper {
     print('${masjid.toJson()}');
     try {
       await _db
-          .collection(_masjidCollection)
+          .collection(_registerMasjidCollection)
           .document(uid)
           .setData(masjid.toJson());
     } catch (e) {
@@ -115,22 +124,44 @@ class FirestoreHelper {
     print('@updateNamazTime');
     print('${masjid.toJson()}');
     try {
-      await _db
-          .collection(_masjidCollection)
-          .document(uid)
-          .updateData(masjid.toJson());
+      if (masjid.isApproved) {
+        await _db
+            .collection(_masjidCollection)
+            .document(uid)
+            .updateData(masjid.toJson());
+      } else {
+        await _db
+            .collection(_registerMasjidCollection)
+            .document(uid)
+            .updateData(masjid.toJson());
+      }
     } catch (e) {
       print('Exception @creatMasjid: $e');
     }
   }
 
+  /// This function accepts [uid] which is imam's Auth Id and
+  /// returns [Masjid] with the same [uid] as Firebase Document Id.
+  ///
+  /// It first checks masjid with relevant id in the approved mosques
+  /// collection [majsid], if not found, then it checks the mosque
+  /// in the unapproved mosques collection [registeredMasjid].
+  ///
+  /// If no entry for a specific [uid] then it returns null.
+
   Future<Masjid> getMasjid(uid) async {
+    DocumentSnapshot snapshot;
     try {
-      final snapshot = await _db.collection('masjid').document(uid).get();
-      if (snapshot != null)
+      snapshot = await _db.collection('masjid').document(uid).get();
+      if (snapshot.data != null) {
         return Masjid.fromJson(snapshot);
-      else
-        return null;
+      } else {
+        snapshot = await _db.collection('registerMasjid').document(uid).get();
+        if (snapshot.data != null)
+          return Masjid.fromJson(snapshot);
+        else
+          return null;
+      }
     } catch (e) {
       print('Exception @getMasjid: $e');
       return null;

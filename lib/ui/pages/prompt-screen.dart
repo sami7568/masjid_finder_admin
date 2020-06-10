@@ -5,10 +5,8 @@ import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/ui/custom_widgets/asset-logo.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-outlined-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
-import 'package:masjid_finder/ui/pages/imam-login-screen.dart';
 import 'package:masjid_finder/ui/pages/imam-signup-screen.dart';
 import 'package:masjid_finder/ui/pages/location-access.dart';
-import 'package:masjid_finder/ui/pages/nearby-mosques-screen.dart';
 import 'package:provider/provider.dart';
 
 class PromptScreen extends StatelessWidget {

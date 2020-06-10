@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
-import 'package:masjid_finder/models/masjid-model.dart';
-import 'package:masjid_finder/ui/custom_widgets/cusom-black-button.dart';
 
 class SubscribedMosqueListItem extends StatelessWidget {
   final mosqueName;

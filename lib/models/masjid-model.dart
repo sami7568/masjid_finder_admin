@@ -8,6 +8,7 @@ class Masjid {
   GeoFirePoint position;
   bool isJamiaMasjid;
   bool isFollowing;
+  bool isApproved;
   PrayerTime prayerTime;
   int subscribers;
   String status;
@@ -19,6 +20,7 @@ class Masjid {
     this.position,
     this.isJamiaMasjid = false,
     this.isFollowing = false,
+    this.isApproved = false,
     this.subscribers,
     this.status = 'applied',
   }) {
@@ -36,6 +38,7 @@ class Masjid {
     );
     this.isJamiaMasjid = masjidData['isJamiaMasjid'];
     this.isFollowing = masjidData['isFollowing'];
+    this.isApproved = masjidData['isApproved'];
     this.subscribers = masjidData['subscribers'];
     this.prayerTime = PrayerTime.fromJSON(masjidData['prayerTime']);
     this.status = masjidData['status'];
@@ -52,6 +55,7 @@ class Masjid {
       'status': this.status,
       'prayerTime': prayerTime.toJSON(),
       'isFollowing': this.isFollowing,
+      'isApproved': this.isApproved,
     };
   }
 }

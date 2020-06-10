@@ -20,6 +20,7 @@ class _MosqueNotListedState extends State<MosqueNotListed> {
   }
 
   _getMasjidData(){
+
   }
 
   @override
