@@ -37,22 +37,31 @@ class FirestoreHelper {
               .collection(_userCollection)
               .document(userId)
               .setData(user.toJson());
-      if (!isImam) createFcmToken(userId);
+      createFcmToken(userId, isImam);
     } catch (e) {
       print('Exception @createUser: $e');
     }
   }
 
-  createFcmToken(userId) async {
+  createFcmToken(userId, isImam) async {
     try {
       print('@createFcmToken');
       FirebaseMessaging fcm = FirebaseMessaging();
       final fcmToken = await fcm.getToken();
-      DocumentReference fcmRef = _db
-          .collection(_userCollection)
-          .document(userId)
-          .collection('fcm_tokens')
-          .document(fcmToken);
+      DocumentReference fcmRef;
+      if (isImam) {
+        fcmRef = _db
+            .collection(_imamCollection)
+            .document(userId)
+            .collection('fcm_tokens')
+            .document(fcmToken);
+      } else {
+        _db
+            .collection(_userCollection)
+            .document(userId)
+            .collection('fcm_tokens')
+            .document(fcmToken);
+      }
       final snapshot = await fcmRef.get();
 
       if (snapshot.data == null) {
@@ -115,12 +124,12 @@ class FirestoreHelper {
     print('@updateNamazTime');
     print('${masjid.toJson()}');
     try {
-      if(masjid.isApproved){
+      if (masjid.isApproved) {
         await _db
             .collection(_masjidCollection)
             .document(uid)
             .updateData(masjid.toJson());
-      }else{
+      } else {
         await _db
             .collection(_registerMasjidCollection)
             .document(uid)

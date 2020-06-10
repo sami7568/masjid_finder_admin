@@ -119,7 +119,7 @@ class AuthProvider extends ChangeNotifier {
         /// created as Imam. If successful, go ahead otherwise logout
         /// from firebase auth.
 
-        _firestoreHelper.createFcmToken(authResult.user.uid);
+        _firestoreHelper.createFcmToken(authResult.user.uid, isImam);
         if (userType == UserType.imam) {
           final status = await _firestoreHelper.checkIfImam(_user.uid);
           if (status) {
