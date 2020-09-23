@@ -120,7 +120,7 @@ class FirestoreHelper {
     }
   }
 
-  updateNamazTime({Masjid masjid, uid}) async {
+  updateMasjid({Masjid masjid, uid}) async {
     print('@updateNamazTime');
     print('${masjid.toJson()}');
     try {

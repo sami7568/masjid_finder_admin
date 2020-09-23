@@ -27,7 +27,9 @@ class _MySubscriptionsScreenState extends State<MySubscriptionsScreen> {
 
   @override
   void initState() {
-    _getSubscriptionsList();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getSubscriptionsList();
+    });
     super.initState();
   }
 
