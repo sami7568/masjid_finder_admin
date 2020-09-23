@@ -23,21 +23,21 @@ class SplashScreenState extends State<SplashScreen> {
     print('@SplashScreen');
     _initializeSharedPref();
     super.initState();
-    Timer(
-      Duration(milliseconds: 1500),
-      () => Navigator.of(context).pushReplacement(
-        FadeRoute(
-          page: Provider.of<AuthProvider>(context, listen: false).userType ==
-                  null
-              ? PromptScreen()
-              : Provider.of<AuthProvider>(context, listen: false).userType ==
-                      UserType.user
-                  ? LocationAccess()
-                  : ImamLoginScreen(),
-        ),
-//          page: UserLoginScreen(),
-      ),
-    );
+    Future.delayed(Duration(milliseconds: 1500), () {
+      Navigator.pushAndRemoveUntil(context, FadeRoute(
+        page: Provider
+            .of<AuthProvider>(context, listen: false)
+            .userType ==
+            null
+            ? PromptScreen()
+            : Provider
+            .of<AuthProvider>(context, listen: false)
+            .userType ==
+            UserType.user
+            ? LocationAccess()
+            : ImamLoginScreen(),
+      ), (route) => false);
+    });
   }
 
   _initializeSharedPref() async {
@@ -98,21 +98,17 @@ class FadeRoute extends PageRouteBuilder {
 
   FadeRoute({this.page})
       : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-        );
+    pageBuilder: (BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,) =>
+    page,
+    transitionsBuilder: (BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+  );
 }

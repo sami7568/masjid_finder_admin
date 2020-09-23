@@ -17,12 +17,12 @@ class _LocationAccessState extends State<LocationAccess> {
   void initState() {
     GeoLocatorHelper().isGpsEnabled().then((status) {
       if (status == true) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MosquesResult(),
-          ),
-        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MosquesResult(),
+            ),
+            (route) => false);
       } else {
         gpsStatus = true;
       }

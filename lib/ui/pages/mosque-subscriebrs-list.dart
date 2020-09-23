@@ -21,14 +21,15 @@ class _MosqueSubscribersListState extends State<MosqueSubscribersList> {
 
   @override
   void initState() {
-    _getSubscribersData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getSubscribersData();
+    });
     super.initState();
   }
 
   _getSubscribersData() async {
-
-    if (Provider.of<MasjidProvider>(context).masjid.subscribers == null ||
-        Provider.of<MasjidProvider>(context).masjid.subscribers == 0) {
+    if (Provider.of<MasjidProvider>(context, listen: false).masjid.subscribers == null ||
+        Provider.of<MasjidProvider>(context, listen: false).masjid.subscribers == 0) {
       gotData = true;
       setState(() {});
       return;

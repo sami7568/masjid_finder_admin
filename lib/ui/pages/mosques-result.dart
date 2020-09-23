@@ -68,9 +68,8 @@ class _MosquesResultState extends State<MosquesResult> {
     final ref = Firestore.instance.collection('masjid');
 
     try {
-      final stream = geoFlutterFire
-          .collection(collectionRef: ref)
-          .within(center: center, radius: radius, field: 'position');
+      final stream = geoFlutterFire.collection(collectionRef: ref).within(
+          center: center, radius: radius, field: 'position', strictMode: true);
       stream.listen(
         (List<DocumentSnapshot> docsList) {
           print('Masjid count: ${docsList.length}');

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
+import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/providers/masjid-provider.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-squre-textfield.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
@@ -12,6 +13,10 @@ import 'package:masjid_finder/ui/pages/update-mosque-on-map-screen.dart';
 import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatelessWidget {
+  final isEdit;
+
+  EditProfileScreen({this.isEdit = false});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,11 +75,11 @@ class EditProfileScreen extends StatelessWidget {
             SizedBox(height: 32),
             CustomSquareTextField(
               label: 'Name',
-              inputType: TextInputType.number,
+              inputType: TextInputType.text,
               controller:
                   TextEditingController(text: masjidProvider.masjid.name),
               onChange: (val) {
-                masjidProvider.masjid.position.latitude = double.parse(val);
+                masjidProvider.masjid.name = val;
                 print(masjidProvider.masjid.position.latitude);
               },
             ),
@@ -84,7 +89,7 @@ class EditProfileScreen extends StatelessWidget {
               controller:
                   TextEditingController(text: masjidProvider.masjid.address),
               onChange: (val) {
-                masjidProvider.masjid.position.latitude = double.parse(val);
+                masjidProvider.masjid.address = val;
                 print(masjidProvider.masjid.position.latitude);
               },
             ),
@@ -95,8 +100,7 @@ class EditProfileScreen extends StatelessWidget {
                     hint: '3.9769755',
                     label: 'Latitude',
                     controller: TextEditingController(
-                        text: masjidProvider
-                            .masjid.position.geoPoint.latitude
+                        text: masjidProvider.masjid.position.geoPoint.latitude
                             .toString()),
                     inputType: TextInputType.number,
                     onChange: (val) {
@@ -112,8 +116,7 @@ class EditProfileScreen extends StatelessWidget {
                     hint: '71.2852823',
                     label: 'Longitude',
                     controller: TextEditingController(
-                        text: masjidProvider
-                            .masjid.position.geoPoint.longitude
+                        text: masjidProvider.masjid.position.geoPoint.longitude
                             .toString()),
                     inputType: TextInputType.number,
                     onChange: (val) {
@@ -209,28 +212,22 @@ class EditProfileScreen extends StatelessWidget {
   _continueBtn() {
     return Consumer<MasjidProvider>(
       builder: (context, masjidProvider, child) => RaisedButton(
-        color: masjidProvider.locationAdded ? mainThemeColor : Colors.grey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          child: Text(
-            'Update Profile',
-            style: blackBtnTS,
+          color: mainThemeColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            child: Text(
+              'Update Profile',
+              style: blackBtnTS,
+            ),
           ),
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        onPressed: () {
-          if (masjidProvider.locationAdded) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddMasjidScreen3(),
-              ),
-            );
-          }
-        },
-      ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          onPressed: () {
+            masjidProvider.updateMasjid(
+                Provider.of<AuthProvider>(context, listen: false).user.uid);
+            Navigator.pop(context);
+          }),
     );
   }
 }

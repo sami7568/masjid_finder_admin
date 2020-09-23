@@ -211,7 +211,7 @@ class EditMasjidProfileScreen extends StatelessWidget {
                         print('Alert dialog closed with status: $status');
                         if (status) {
                           masjidProvider.setFajarTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
+                          masjidProvider.updateMasjid(
                               Provider.of<AuthProvider>(context, listen: false)
                                   .user
                                   .uid);
@@ -227,7 +227,7 @@ class EditMasjidProfileScreen extends StatelessWidget {
                         print('Alert dialog closed with status: $status');
                         if (status) {
                           masjidProvider.setZuharTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
+                          masjidProvider.updateMasjid(
                               Provider.of<AuthProvider>(context, listen: false)
                                   .user
                                   .uid);
@@ -243,7 +243,7 @@ class EditMasjidProfileScreen extends StatelessWidget {
                         print('Alert dialog closed with status: $status');
                         if (status) {
                           masjidProvider.setAsarTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
+                          masjidProvider.updateMasjid(
                               Provider.of<AuthProvider>(context, listen: false)
                                   .user
                                   .uid);
@@ -259,7 +259,7 @@ class EditMasjidProfileScreen extends StatelessWidget {
                         print('Alert dialog closed with status: $status');
                         if (status) {
                           masjidProvider.setMaghribTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
+                          masjidProvider.updateMasjid(
                               Provider.of<AuthProvider>(context, listen: false)
                                   .user
                                   .uid);
@@ -275,7 +275,7 @@ class EditMasjidProfileScreen extends StatelessWidget {
                         print('Alert dialog closed with status: $status');
                         if (status) {
                           masjidProvider.setIshaTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
+                          masjidProvider.updateMasjid(
                               Provider.of<AuthProvider>(context, listen: false)
                                   .user
                                   .uid);
@@ -291,7 +291,7 @@ class EditMasjidProfileScreen extends StatelessWidget {
                         print('Alert dialog closed with status: $status');
                         if (status) {
                           masjidProvider.setJummahTime(updatedNamazTime);
-                          masjidProvider.updateNamazTime(
+                          masjidProvider.updateMasjid(
                               Provider.of<AuthProvider>(context, listen: false)
                                   .user
                                   .uid);

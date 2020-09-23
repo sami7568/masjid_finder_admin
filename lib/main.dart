@@ -8,20 +8,7 @@ import 'package:masjid_finder/ui/pages/time-change-masjid-details-screen.dart';
 import 'package:provider/provider.dart';
 import 'package:masjid_finder/ui/pages/splash-screen.dart';
 
-void main() => runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => AuthProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => MasjidProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => FcmNotificationsProvider(context),
-        ),
-      ],
-      child: MyApp(),
-    ));
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -94,12 +81,25 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: _navKey,
-      theme: ThemeData(
-          backgroundColor: backgroundColor,
-          scaffoldBackgroundColor: backgroundColor),
-      home: SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MasjidProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FcmNotificationsProvider(context),
+        ),
+      ],
+      child: MaterialApp(
+        navigatorKey: _navKey,
+        theme: ThemeData(
+            backgroundColor: backgroundColor,
+            scaffoldBackgroundColor: backgroundColor),
+        home: SplashScreen(),
+      ),
     );
   }
 }
