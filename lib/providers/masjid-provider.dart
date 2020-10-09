@@ -50,8 +50,8 @@ class MasjidProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  createMasjidInDb(uid) {
-    FirestoreHelper().createMasjid(masjid: this.masjid, uid: uid);
+  createMasjidInDb(uid) async {
+    await FirestoreHelper().createMasjid(masjid: this.masjid, uid: uid);
   }
 
   updateMasjid(uid) {
@@ -59,7 +59,8 @@ class MasjidProvider extends ChangeNotifier {
   }
 
   clear() {
-    masjid = Masjid(position: GeoFirePoint(null, null));
+    this.masjid = null;
+    this.masjid = new Masjid(position: GeoFirePoint(null, null));
     locationAdded = false;
   }
 }

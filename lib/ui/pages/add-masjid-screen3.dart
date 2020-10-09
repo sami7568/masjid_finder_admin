@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
 import 'package:masjid_finder/providers/auth-provider.dart';
 import 'package:masjid_finder/providers/masjid-provider.dart';
 import 'package:masjid_finder/ui/custom_widgets/logo.dart';
 import 'package:masjid_finder/ui/pages/masjid-details-screen.dart';
+import 'package:masjid_finder/ui/pages/mosque-dashboard-screen.dart';
 import 'package:provider/provider.dart';
 
-class AddMasjidScreen3 extends StatelessWidget {
+class AddMasjidScreen3 extends StatefulWidget {
+  @override
+  _AddMasjidScreen3State createState() => _AddMasjidScreen3State();
+}
+
+class _AddMasjidScreen3State extends State<AddMasjidScreen3> {
+  bool isBusy = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: _body(),
+          child: isBusy ? Center(child: CircularProgressIndicator()) : _body(),
         ),
       ),
       backgroundColor: greyBgColor,
@@ -205,13 +214,17 @@ class AddMasjidScreen3 extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
-          onPressed: () {
+          onPressed: () async {
+            setState(() {
+              isBusy = true;
+            });
             final uid =
                 Provider.of<AuthProvider>(context, listen: false).user.uid;
-            masjidProvider.createMasjidInDb(uid);
-            masjidProvider.clear();
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MasjidDetailsScreen()));
+            await masjidProvider.createMasjidInDb(uid);
+            setState(() {
+              isBusy = false;
+            });
+            _navigateToNewScreen();
 //            if (masjidProvider.locationAdded) {
 //              Navigator.push(
 //                context,
@@ -224,5 +237,12 @@ class AddMasjidScreen3 extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _navigateToNewScreen() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MosqueDashboardScreen()));
+    });
   }
 }

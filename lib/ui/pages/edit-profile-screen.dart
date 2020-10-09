@@ -85,7 +85,7 @@ class EditProfileScreen extends StatelessWidget {
             ),
             CustomSquareTextField(
               label: 'Address',
-              inputType: TextInputType.number,
+              inputType: TextInputType.text,
               controller:
                   TextEditingController(text: masjidProvider.masjid.address),
               onChange: (val) {
@@ -198,7 +198,7 @@ class EditProfileScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UpdateMosqueOnMapScreen(),
+                    builder: (context) => PinMosqueOnMapScreen(),
                   ),
                 );
               },
