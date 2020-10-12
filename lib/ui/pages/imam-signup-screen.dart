@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/constants/colors.dart';
 import 'package:masjid_finder/constants/text-styles.dart';
@@ -9,6 +10,7 @@ import 'package:masjid_finder/ui/custom_widgets/asset-logo.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-blue-rounded-button.dart';
 import 'package:masjid_finder/ui/custom_widgets/custom-rounded-textfield.dart';
 import 'package:masjid_finder/ui/pages/imam-login-screen.dart';
+import 'package:masjid_finder/ui/pages/imam-phone-verification-screen.dart';
 import 'package:masjid_finder/ui/pages/mosque-not-listed.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
@@ -69,29 +71,29 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
               imam.fullName = val;
             },
           ),
-          CustomRoundedTextField(
-            hint: 'userName@email.com',
-            label: 'Email',
-            onChange: (val) {
-              imam.email = val;
-            },
-          ),
+//          CustomRoundedTextField(
+//            hint: 'userName@email.com',
+//            label: 'Email',
+//            onChange: (val) {
+//              imam.email = val;
+//            },
+//          ),
           CustomRoundedTextField(
             hint: '03*******97',
             label: 'Contact',
             inputType: TextInputType.phone,
             onChange: (val) {
-              imam.contact = val;
+              imam.contact = '+92${val.substring(1)}';
             },
           ),
-          CustomRoundedTextField(
-            hint: '*********',
-            label: 'Password',
-            isPassword: true,
-            onChange: (val) {
-              imam.password = val;
-            },
-          ),
+//          CustomRoundedTextField(
+//            hint: '*********',
+//            label: 'Password',
+//            isPassword: true,
+//            onChange: (val) {
+//              imam.password = val;
+//            },
+//          ),
           SizedBox(height: 20),
           Consumer<AuthProvider>(
             builder: (context, authProvider, child) {
@@ -106,34 +108,89 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
                 onPressed: () async {
                   setState(() {
                     isInProgress = true;
+                    print('Show Progress Bar is true');
                   });
-                  await authProvider.createAccount(user: imam, isImam: true);
+                  await FirebaseAuth.instance.verifyPhoneNumber(
+                      phoneNumber: '+923159899097',
+                      verificationCompleted: (AuthCredential credential) async {
+                        await authProvider.createImamAccount(imam, credential);
+                        if (authProvider.status ==
+                            AuthResultStatus.successful) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MosqueNotListed()),
+                              (r) => false);
+                        } else {
+                          final errorMsg =
+                              AuthExceptionHandler.generateExceptionMessage(
+                                  authProvider.status);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Login Failed',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                content: Text(errorMsg),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      verificationFailed: (AuthException e) {
+                        print('@verificationFailed');
+                        print('$e');
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Login Failed',
+                                  style: TextStyle(color: Colors.black)),
+                              content: Text(e.message),
+                            );
+                          },
+                        );
+                      },
+                      codeAutoRetrievalTimeout: (String verificationId) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ImamPhoneVerificationScreen(
+                                        this.imam, verificationId, true)));
+                      },
+                      codeSent: _codeSent,
+                      timeout: Duration(seconds: 15));
+
+//                  await authProvider.createImamAccount(imam: imam, isImam: true);
                   setState(() {
                     isInProgress = false;
                   });
-                  if (authProvider.status == AuthResultStatus.successful) {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MosqueNotListed()),
-                        (r) => false);
-                  } else {
-                    final errorMsg =
-                        AuthExceptionHandler.generateExceptionMessage(
-                            authProvider.status);
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text(
-                            'Login Failed',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          content: Text(errorMsg),
-                        );
-                      },
-                    );
-                  }
+//                  if (authProvider.status == AuthResultStatus.successful) {
+//                    Navigator.pushAndRemoveUntil(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) => MosqueNotListed()),
+//                        (r) => false);
+//                  } else {
+//                    final errorMsg =
+//                        AuthExceptionHandler.generateExceptionMessage(
+//                            authProvider.status);
+//                    showDialog(
+//                      context: context,
+//                      builder: (context) {
+//                        return AlertDialog(
+//                          title: Text(
+//                            'Login Failed',
+//                            style: TextStyle(color: Colors.black),
+//                          ),
+//                          content: Text(errorMsg),
+//                        );
+//                      },
+//                    );
+//                  }
                 },
               );
             },
@@ -153,15 +210,20 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ImamLoginScreen()));
+                            builder: (context) => ImamLoginScreen()),
+                        (route) => false);
                   }),
             ],
           )
         ],
       ),
     );
+  }
+
+  void _codeSent(String verificationId, [int resendToken]) {
+    print('Code sent');
   }
 }

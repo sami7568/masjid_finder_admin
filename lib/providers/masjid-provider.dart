@@ -50,11 +50,17 @@ class MasjidProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  createMasjidInDb(uid) {
-    FirestoreHelper().createMasjid(masjid: this.masjid, uid: uid);
+  createMasjidInDb(uid) async {
+    await FirestoreHelper().createMasjid(masjid: this.masjid, uid: uid);
   }
 
   updateMasjid(uid) {
     FirestoreHelper().updateMasjid(masjid: this.masjid, uid: uid);
+  }
+
+  clear() {
+    this.masjid = null;
+    this.masjid = new Masjid(position: GeoFirePoint(null, null));
+    locationAdded = false;
   }
 }

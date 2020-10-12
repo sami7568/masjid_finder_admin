@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:masjid_finder/models/masjid-model.dart';
+import 'package:masjid_finder/providers/masjid-provider.dart';
 import 'package:masjid_finder/ui/custom_widgets/add-masjid-card.dart';
 import 'package:masjid_finder/ui/custom_widgets/admin-app-bar.dart';
 import 'package:masjid_finder/ui/custom_widgets/salam-card.dart';
 import 'package:masjid_finder/ui/pages/add-masjid-screen1.dart';
+import 'package:provider/provider.dart';
 
 class MosqueNotListed extends StatefulWidget {
   @override
@@ -19,9 +23,7 @@ class _MosqueNotListedState extends State<MosqueNotListed> {
     super.initState();
   }
 
-  _getMasjidData(){
-
-  }
+  _getMasjidData() {}
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,8 @@ class _MosqueNotListedState extends State<MosqueNotListed> {
             //Add Mosque Card
             AddMasjidCard(
               onBtnPressed: () {
+                Provider.of<MasjidProvider>(context, listen: false).masjid =
+                    Masjid(position: GeoFirePoint(null, null));
                 Navigator.push(
                   context,
                   MaterialPageRoute(

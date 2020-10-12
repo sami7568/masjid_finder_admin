@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/enums/user-type.dart';
+import 'package:masjid_finder/models/imam-model.dart';
 import 'package:masjid_finder/services/auth-exception-handler.dart';
 import 'package:masjid_finder/enums/auth-result-status.dart';
 import 'package:masjid_finder/services/firestore-helper.dart';
@@ -97,6 +98,36 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//  verifyImamPhone(Imam imam) async {
+//    codeSent: (String verificationId, int resendToken) {},
+//  }
+
+  Future<void> createImamAccount(Imam imam, AuthCredential credential) async {
+    try {
+      AuthResult authResult = await _auth.signInWithCredential(credential);
+      if (authResult.user != null) {
+        _status = AuthResultStatus.successful;
+        _firestoreHelper.createUser(
+            user: imam, userId: _user.uid, isImam: true);
+
+//        /// Update userName in FirebaseAuth
+//        UserUpdateInfo updatedInfo = UserUpdateInfo();
+//
+////        updatedInfo.displayName = StringHelper().wordCapitalize(user.fullName);
+//        await updateUserInfo(updatedInfo);
+      } else {
+        print('User is null');
+        _status = AuthResultStatus.undefined;
+      }
+    } catch (e, s) {
+      print('Exception @createAccount: $e');
+      print('$s');
+      _status = AuthExceptionHandler.handleException(e);
+    }
+
+    notifyListeners();
+  }
+
   void setLoginInProgress() {
     loginInProgress = true;
     print('Login in Progress: $loginInProgress)');
@@ -109,10 +140,15 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login({email, pass, isImam = false}) async {
+  Future<void> login({email, pass, isImam = false, AuthCredential credentials}) async {
     try {
-      final authResult =
-          await _auth.signInWithEmailAndPassword(email: email, password: pass);
+      var authResult;
+      if (!isImam) {
+        authResult = await _auth.signInWithEmailAndPassword(
+            email: email, password: pass);
+      } else {
+        authResult = await _auth.signInWithCredential(credentials);
+      }
 
       if (authResult.user != null) {
         /// If user logs in as an Imam, check if user account was also
@@ -146,7 +182,7 @@ class AuthProvider extends ChangeNotifier {
         _status = AuthResultStatus.undefined;
       }
     } catch (e) {
-      print('Exception @createAccount: $e');
+      print('Exception @AuthProvider/login: $e');
       _status = AuthExceptionHandler.handleException(e);
     }
     notifyListeners();
