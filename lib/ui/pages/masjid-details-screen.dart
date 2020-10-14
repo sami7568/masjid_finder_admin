@@ -130,7 +130,7 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Provider.of<AuthProvider>(context).userType == UserType.imam
+                  Provider.of<AuthProvider>(context).userType == UserType.user
                       ? isFollowed
                           ? CustomBlueButton(
                               child: Row(
