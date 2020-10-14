@@ -108,7 +108,7 @@ class _ImamLoginScreenState extends State<ImamLoginScreen> {
                   isInProgress = true;
                 });
                 await FirebaseAuth.instance.verifyPhoneNumber(
-                    phoneNumber: '+923159899097',
+                    phoneNumber: imam.contact,
                     verificationCompleted: (AuthCredential credential) async {
                       await authProvider.login(
                           credentials: credential, isImam: true);

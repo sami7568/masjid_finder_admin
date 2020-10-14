@@ -111,7 +111,7 @@ class _ImamSignUpScreenState extends State<ImamSignUpScreen> {
                     print('Show Progress Bar is true');
                   });
                   await FirebaseAuth.instance.verifyPhoneNumber(
-                      phoneNumber: '+923159899097',
+                      phoneNumber: imam.contact,
                       verificationCompleted: (AuthCredential credential) async {
                         await authProvider.createImamAccount(imam, credential);
                         if (authProvider.status ==
