@@ -4,6 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:masjid_finder/models/masjid-model.dart';
 import 'dart:io';
 
+import 'package:masjid_finder/models/user-model.dart';
+
 class FirestoreHelper {
   final _db = Firestore.instance;
   final _userCollection = 'users';

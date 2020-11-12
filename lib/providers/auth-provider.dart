@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:masjid_finder/enums/user-type.dart';
 import 'package:masjid_finder/models/imam-model.dart';
+import 'package:masjid_finder/models/user-model.dart';
 import 'package:masjid_finder/services/auth-exception-handler.dart';
 import 'package:masjid_finder/enums/auth-result-status.dart';
 import 'package:masjid_finder/services/firestore-helper.dart';
@@ -72,12 +74,13 @@ class AuthProvider extends ChangeNotifier {
   /// Helper Functions
   ///
 
-  Future<void> createAccount({user, isImam = false}) async {
+  Future<void> createAccount({User user, isImam = false}) async {
     try {
       final authResult = await _auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
 
       if (authResult.user != null) {
+        user.fcmToken = await FirebaseMessaging().getToken();
         _status = AuthResultStatus.successful;
         _firestoreHelper.createUser(
             user: user, userId: _user.uid, isImam: isImam);
@@ -140,7 +143,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login({email, pass, isImam = false, AuthCredential credentials}) async {
+  Future<void> login(
+      {email, pass, isImam = false, AuthCredential credentials}) async {
     try {
       var authResult;
       if (!isImam) {

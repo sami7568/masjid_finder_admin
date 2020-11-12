@@ -10,6 +10,7 @@ class User {
     return {
       'fullName': this.fullName,
       'email': this.email,
+      'fcmToken': this.fcmToken,
     };
   }
 }
