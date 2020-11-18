@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -180,7 +181,7 @@ class _MasjidDetailsScreenState extends State<MasjidDetailsScreen> {
   _followMosque(context) async {
     if (Provider.of<AuthProvider>(context, listen: false).isLogin) {
       _showSnackBar('You have successfully subscribed the mosque');
-      final user = Provider.of<AuthProvider>(context, listen: false).user;
+      final user = await FirebaseAuth.instance.currentUser();
       final masjid = Provider.of<MasjidProvider>(context, listen: false).masjid;
       setState(() {
         isFollowed = true;
